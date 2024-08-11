@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                       String             @id @default(auto()) @map("_id") @db.ObjectId
+  email                    String             @unique
+  password                 String?
+  name                     String
+  username                 String?
+  image                    String?
+  googleId                 String?           
+  refreshToken             String?
+  accessToken              String?
+  resetToken               String?
+  resetTokenExpires        DateTime?
+  verificationToken        String?
+  verificationTokenExpires DateTime?
+  isVerified               Boolean            @default(false)
+  availabilities           UserAvailability[]
+  events                   Event[]
+}
+
+model UserAvailability {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  days     String[]
+  timeFrom String
+  timeTo   String
+
+  user User? @relation(fields: [id], references: [id])
+}
+
+model Event {
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  host               User     @relation(fields: [hostId], references: [id])
+  hostId             String   @map("_hostId") @db.ObjectId
+  attendeeName       String
+  attendeeEmail      String
+  messageForAttendee String?
+  meetingDate        String
+  meetingStartTime   String
+  meetingEndTime     String
+  googleMeetUrl      String?
+  visitCount         Int      @default(0)
+  visitRecords       String[] @default([]) 
+
+  @@unique([hostId, attendeeEmail])
+}

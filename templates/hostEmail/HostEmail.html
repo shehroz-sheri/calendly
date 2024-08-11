@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      .container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      .content {
+        width: 60%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .btn {
+        background-color: #4200ff;
+        color: white;
+        border: none;
+        padding: 15px 20px;
+        border-radius: 2px;
+        cursor: pointer;
+        margin-right: 10px;
+      }
+      .btn-ical {
+        background-color: #2a67c7;
+      }
+      .logoDiv {
+        text-align: center;
+        border-bottom: 1px dashed dimgray;
+        width: 100%;
+        padding: 25px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="content">
+        <div class="logoDiv">
+          <img src="https://8566270.fs1.hubspotusercontent-na1.net/hubfs/8566270/__hs-marketplace__/My%20project-1%20(14)-1-1.png" alt="logo" width="100" height="100" />
+        </div>
+
+        <br />
+        <p>Hi {{hostName}},</p>
+        <p>A new Event has been scheduled.</p>
+        <br />
+        <b>Event Type:</b>
+        <p>30 Minute Meeting</p>
+        <b>Invitee:</b>
+        <p>{{inviteeName}}</p>
+        <b>Invitee Email:</b>
+        <p>{{inviteeEmail}}</p>
+        <b>Event Date and Time:</b>
+        <p>{{eventDateTime}}</p>
+        <b>Invitee Time Zone:</b>
+        <p>{{timeZone}}</p>
+        <b>Google Meet URL:</b>
+        <p>{{googleMeetUrl}}</p>
+        <br />
+        <p>Questions:</p>
+        <b>Please share anything that will help prepare for our meeting.</b>
+        <p>{{eventMessage}}</p>
+        <p>{{eventLink}}</p>
+        <br>
+        <button class="btn">Add to Google Calendar</button>
+        <button class="btn btn-ical">Add to iCal/Outlook</button>
+      </div>
+    </div>
+  </body>
+</html>

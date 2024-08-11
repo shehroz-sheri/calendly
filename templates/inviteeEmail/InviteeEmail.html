@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      .container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      .content {
+        width: 60%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .btn {
+        background-color: #4200ff;
+        color: white;
+        border: none;
+        padding: 15px 20px;
+        border-radius: 2px;
+        cursor: pointer;
+        margin-right: auto;
+        margin-left: auto;
+        text-align: center;
+      }
+      .info {
+        text-align: center;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="content">
+        <p>Hi {{inviteeName}},</p>
+        <p>
+          Your 30 Minute Meeting with {{hostName}} at {{eventStartTime}}
+          {{timeZone}} on {{eventDate}} is scheduled.
+        </p>
+        <br />
+        <p>Your Answers:</p>
+        <b>Please share anything that will help prepare for our meeting.</b>
+        <p>{{eventMessage}}</p>
+        <br />
+        <b>Google Meet URL:</b>
+        <p>{{googleMeetUrl}}</p>
+        <p class="info">
+          This event scheduled automatically show up on your calendar. If
+          needed, you can still add it manually:
+        </p>
+        <br />
+        <button class="btn">Add to Calendar</button>
+      </div>
+    </div>
+  </body>
+</html>

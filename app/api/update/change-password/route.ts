@@ -1,11 +1,10 @@
 import { prisma } from "@/config/prisma";
-import { NextApiRequest } from "next";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { verifyUser } from "@/libs/verifyUser";
 
-export const POST = async (req: NextApiRequest) => {
-  const body = await new Response(req.body).json();
+export const POST = async (req: NextRequest) => {
+  const body = await req.json();
 
   const { email, oldPassword, newPassword } = body;
 

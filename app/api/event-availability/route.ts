@@ -1,9 +1,8 @@
 import { prisma } from "@/config/prisma";
-import { NextApiRequest } from "next";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export const POST = async (req: NextApiRequest) => {
-  const { email } = await new Response(req.body).json();
+export const POST = async (req: NextRequest) => {
+  const { email } = await req.json();
 
   if (!email)
     return NextResponse.json({ message: "Invalid request" }, { status: 400 });

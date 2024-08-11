@@ -2,11 +2,10 @@ import { prisma } from "@/config/prisma";
 import sendVerificationEmail from "@/libs/sendVerifyEmail";
 import { verifyUser } from "@/libs/verifyUser";
 import { generateVerificationToken } from "@/utils/generateVerificationToken";
-import { NextApiRequest } from "next";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export const POST = async (req: NextApiRequest) => {
-  let { email, password } = await new Response(req.body).json();
+export const POST = async (req: NextRequest) => {
+  let { email, password } = await req.json();
 
   if (!email || !password)
     return NextResponse.json({ message: "Invalid request" }, { status: 400 });

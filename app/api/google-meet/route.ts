@@ -1,5 +1,4 @@
-import { NextApiRequest } from "next";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { google } from "googleapis";
 import { parseDateTime } from "@/utils/parseMeetTime";
 
@@ -9,9 +8,9 @@ const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_REDIRECT_URI
 );
 
-export const POST = async (req: NextApiRequest) => {
+export const POST = async (req: NextRequest) => {
   try {
-    const { eventDetails, refreshToken } = await new Response(req.body).json();
+    const { eventDetails, refreshToken } = await req.json();
 
     oauth2Client.setCredentials({
       refresh_token: refreshToken,

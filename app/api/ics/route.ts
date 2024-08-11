@@ -1,9 +1,8 @@
-import { NextApiRequest } from "next";
 import { generateICS } from "../../../utils/generateIcs";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export const POST = async (req: NextApiRequest) => {
-  const { eventDetails } = await new Response(req.body).json();
+export const POST = async (req: NextRequest) => {
+  const { eventDetails } = await req.json();
 
   const icsContent = generateICS(eventDetails);
 

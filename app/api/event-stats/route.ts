@@ -1,10 +1,9 @@
 import { prisma } from "@/config/prisma";
-import type { NextApiRequest } from "next";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export const POST = async (req: NextApiRequest) => {
+export const POST = async (req: NextRequest) => {
   try {
-    const { hostId } = await new Response(req.body).json();
+    const { hostId } = await req.json();
 
     const events = await prisma.event.findMany({
       where: { hostId: hostId },

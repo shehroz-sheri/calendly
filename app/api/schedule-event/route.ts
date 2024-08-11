@@ -1,6 +1,5 @@
 import { prisma } from "@/config/prisma";
-import { NextApiRequest, NextApiResponse } from "next";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import path from "path";
 import fs from "fs";
@@ -14,10 +13,8 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export const POST = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { user, eventDetails, refreshToken } = await new Response(
-    req.body
-  ).json();
+export const POST = async (req: NextRequest) => {
+  const { user, eventDetails, refreshToken } = await req.json();
 
   const sendEmail = async (
     to: string,

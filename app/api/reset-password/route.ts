@@ -1,10 +1,9 @@
-import { NextApiRequest } from "next";
 import bcrypt from "bcrypt";
 import { prisma } from "@/config/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export const POST = async (req: NextApiRequest) => {
-  const { token, email, newPassword } = await new Response(req.body).json();
+export const POST = async (req: NextRequest) => {
+  const { token, email, newPassword } = await req.json();
 
   if (!token || !email || !newPassword) {
     return NextResponse.json(

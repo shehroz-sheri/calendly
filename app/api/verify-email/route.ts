@@ -1,10 +1,9 @@
 import { prisma } from "@/config/prisma";
-import { NextApiRequest } from "next";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const baseURL = process.env.NEXT_PUBLIC_APP_URL;
 
-export const GET = async (req: NextApiRequest) => {
+export const GET = async (req: NextRequest) => {
   const requestUrl = req.url ?? "";
   const { searchParams } = new URL(requestUrl);
   const token = searchParams.get("token");

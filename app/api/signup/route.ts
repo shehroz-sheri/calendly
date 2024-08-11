@@ -1,12 +1,12 @@
 import { prisma } from "@/config/prisma";
 import { NextApiRequest } from "next";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { generateVerificationToken } from "@/utils/generateVerificationToken";
 import sendVerificationEmail from "@/libs/sendVerifyEmail";
 
-export const POST = async (req: NextApiRequest) => {
-  let data = await new Response(req.body).json();
+export const POST = async (req: NextRequest) => {
+  let data = await req.json();
 
   const hashedPassword = await bcrypt.hash(data.password, 10);
 

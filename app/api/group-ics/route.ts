@@ -1,11 +1,10 @@
 import { EventDetails } from '@/types/types';
 import { generateICS } from '@/utils/groupIcs';
-import type { NextApiRequest } from 'next';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export const POST = async(req: NextApiRequest)=> {
+export const POST = async(req: NextRequest)=> {
     try {
-      const { eventDetails }: { eventDetails: EventDetails[] } = await new Response(req.body).json();
+      const { eventDetails }: { eventDetails: EventDetails[] } = await req.json();
 
       if (
         !Array.isArray(eventDetails) ||

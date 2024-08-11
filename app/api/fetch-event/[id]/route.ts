@@ -1,9 +1,8 @@
 import { prisma } from "@/config/prisma";
-import { NextApiRequest } from "next";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
-  req: NextApiRequest,
+  req: NextRequest,
   { params }: { params: { id: string } }
 ) => {
   const { id } = params;

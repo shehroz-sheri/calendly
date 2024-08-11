@@ -1,12 +1,12 @@
 import Image from "next/image"
-import LogoSvg from '../../../public/assets/images/logo.svg'
 import { LogoProps } from "@/types/types"
+import { logo } from "@/public/assets"
 
 
 const Logo: React.FC<LogoProps> = ({ width, className }) => {
     return (
         <>
-            <Image width={width} className={className} src={LogoSvg} alt="Calendly" loading="lazy" />
+            <Image width={width} height={width} className={className} src={logo} alt="Calendly" loading="lazy" />
         </>
     )
 }

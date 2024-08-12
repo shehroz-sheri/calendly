@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-  const isAuthenticated = request.cookies.get("authjs.session-token") !== undefined;
+  const isAuthenticated = request.cookies.get("authjs.session-token" || "__Secure-authjs.session-token") !== undefined;
   const url = request.nextUrl.clone();
 
   if (url.pathname === "/") {

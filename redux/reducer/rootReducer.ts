@@ -1,7 +1,5 @@
 import { combineReducers } from "@reduxjs/toolkit";
-
 import userReducer from "../slices/userSlice";
-import sessionReducer from "../slices/sessionSlice";
 import availabilityReducer from "../slices/availabilitySlice";
 import googleLoginReducer from "../slices/googleLoginSlice";
 import signupReducer from "../slices/signupSlice";
@@ -17,9 +15,9 @@ import exportEventsReducer from "../slices/exportEventsSlice";
 import analyticsReducer from "../slices/analyticsSlice";
 import scheduleEventReducer from "../slices/scheduleEventSlice";
 import fetchAvailabilityReducer from "../slices/fetchAvailabilitySlice";
+import eventAvailabilityReducer from "../slices/eventAvailabilitySlice";
 
 const rootReducer = combineReducers({
-  session: sessionReducer,
   user: userReducer,
   availability: availabilityReducer,
   signup: signupReducer,
@@ -36,6 +34,7 @@ const rootReducer = combineReducers({
   analytics: analyticsReducer,
   scheduleEvent: scheduleEventReducer,
   fetchAvailability: fetchAvailabilityReducer,
+  eventAvailability: eventAvailabilityReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

@@ -1,8 +1,8 @@
 'use client'
 
-import InputField from "../inputField/InputField";
 import Link from "next/link";
 import { useForgotPassword } from "./useForgotPassword";
+import FormInputField from "../formInputField/FormInputField";
 
 const ForgotPasswordForm: React.FC = () => {
     const { email, loading, handleChange, handleForgotPassword } = useForgotPassword();
@@ -13,14 +13,16 @@ const ForgotPasswordForm: React.FC = () => {
                 <form onSubmit={handleForgotPassword}>
                     <div className="px-3 sm:px-[33px]">
                         <div className="h-[76px] sm:w-[374px] flex flex-col justify-evenly">
-                            <InputField
+                            <FormInputField
                                 id="email"
                                 name="email"
+                                label="Email"
                                 type="email"
                                 value={email}
                                 placeholder="test@example.com"
                                 required
                                 onChange={handleChange}
+                                className="border-[1.5px] text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                             />
                         </div>
                     </div>

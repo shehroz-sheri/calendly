@@ -26,7 +26,7 @@ export const useAnalytics = () => {
   };
 
   const peakHoursChartData = {
-    labels: Object.keys(peakHoursData).map((hour) => `${hour}:00`),
+    labels: Object.keys(peakHoursData)?.map((hour) => `${hour}:00`),
     datasets: [
       {
         label: "Peak Hours",

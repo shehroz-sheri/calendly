@@ -4,7 +4,6 @@ import { prisma } from "./config/prisma";
 import Google from "next-auth/providers/google";
 import { authConfig } from "./config/auth.config";
 
-
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
   providers: [
@@ -12,17 +11,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       async profile(profile) {
         let user = await prisma.user.findUnique({
           where: {
-            email: profile.email,
+            email: profile?.email,
           },
         });
 
         if (!user) {
           await prisma.user.create({
             data: {
-              email: profile.email,
-              name: profile.name,
-              image: profile.picture,
-              googleId: profile.sub,
+              email: profile?.email,
+              name: profile?.name,
+              image: profile?.picture,
+              googleId: profile?.sub,
               isVerified: true,
             },
           });
@@ -32,23 +31,23 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           const newUser = (({ id, ...o }) => o)(user);
 
           await prisma.user.update({
-            where: { email: profile.email },
+            where: { email: profile?.email },
             data: {
               ...newUser,
-              image: profile.picture,
-              googleId: profile.sub,
+              image: profile?.picture,
+              googleId: profile?.sub,
               isVerified: true,
             },
           });
         }
 
         return {
-          id: profile.sub,
-          email: profile.email,
-          name: profile.name,
-          image: profile.picture,
+          id: profile?.sub,
+          email: profile?.email,
+          name: profile?.name,
+          image: profile?.picture,
           provider: "google",
-          googleId: profile.sub,
+          googleId: profile?.sub,
         };
       },
       authorization: {
@@ -68,18 +67,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       authorize: async (credentials) => {
         if (
           !credentials ||
-          typeof credentials.email !== "string" ||
-          typeof credentials.password !== "string"
+          typeof credentials?.email !== "string" ||
+          typeof credentials?.password !== "string"
         ) {
           throw new Error("Invalid credentials");
         }
 
         const user = await prisma.user.findUnique({
           where: {
-            email: credentials.email,
+            email: credentials?.email,
           },
         });
-        
+
         if (user) {
           return user;
         } else {
@@ -88,5 +87,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
-  
 });

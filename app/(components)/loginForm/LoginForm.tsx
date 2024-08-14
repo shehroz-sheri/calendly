@@ -1,10 +1,9 @@
 'use client'
 
-import InputField from "../inputField/InputField";
-import PasswordField from "../passwordField/PasswordField";
 import Link from "next/link";
 import GoogleLogin from "../googleLogin/GoogleLogin";
 import { useLoginForm } from "./useLoginForm";
+import FormInputField from "../formInputField/FormInputField";
 
 const LoginForm: React.FC = () => {
     const {
@@ -23,25 +22,30 @@ const LoginForm: React.FC = () => {
                 <form onSubmit={handleUserLogin}>
                     <div className="px-3 sm:px-[33px]">
                         <div className="h-[76px] sm:w-[374px] flex flex-col justify-evenly">
-                            <InputField
+                            <FormInputField
                                 id="email"
                                 name="email"
                                 type="email"
-                                value={user.email}
+                                value={user?.email}
                                 placeholder="test@example.com"
                                 required
+                                label="Email"
                                 onChange={handleChange}
+                                className="border-[1.5px] text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                             />
                         </div>
                         <div className="sm:w-[374px] flex flex-col justify-evenly">
-                            <PasswordField
+                            <FormInputField
                                 id="password"
                                 name="password"
+                                type="password"
+                                placeholder="Enter your password"
                                 label="Enter your password"
-                                value={user.password}
+                                value={user?.password}
                                 showPassword={showPassword}
                                 togglePasswordVisibility={togglePasswordVisibility}
                                 onChange={handleChange}
+                                className="border-[1.5px] text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                             />
                             <Link href={"/auth/forgot-password"}
                                 className="text-primary hover:text-primary/80 self-end mt-1 text-[12.91px]"

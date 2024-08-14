@@ -1,8 +1,10 @@
+import { auth } from "@/auth";
 import { prisma } from "@/config/prisma";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export const POST = async (req: NextRequest) => {
-  const { email, data } = await req.json();
+export const POST = auth(async function POST(req) {
+  const email = req.auth?.user?.email;
+  const { data } = await req.json();
 
   if (!email || !data) {
     return NextResponse.json({ message: "Invalid request" }, { status: 400 });
@@ -24,4 +26,4 @@ export const POST = async (req: NextRequest) => {
       { status: 500 }
     );
   }
-};
+});

@@ -19,9 +19,9 @@ export const POST = async (req: NextRequest) => {
 
     if (
       !user ||
-      user.resetToken !== token ||
-      !user.resetTokenExpires ||
-      user.resetTokenExpires < new Date()
+      user?.resetToken !== token ||
+      !user?.resetTokenExpires ||
+      user?.resetTokenExpires < new Date()
     ) {
       return NextResponse.json(
         { message: "Invalid or expired token" },

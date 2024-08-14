@@ -1,9 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { selectSessionUser } from "./sessionSlice";
 import axios from "axios";
 import { UpdateUserPayload, UserState } from "@/types/types";
-
 
 const initialState: UserState = {
   response: {
@@ -17,24 +15,16 @@ const initialState: UserState = {
 
 export const updateUser = createAsyncThunk(
   "user/updateUser",
-  async (payload: UpdateUserPayload, { getState, rejectWithValue }) => {
+  async (payload: UpdateUserPayload, { rejectWithValue }) => {
     try {
-      const state = getState() as RootState;
-      const user = selectSessionUser(state);
-
-      if (!user) {
-        return rejectWithValue("User is not authenticated");
-      }
-
       const response = await axios.post("/api/update/user", {
-        email: user.email,
-        data: payload.data,
+        data: payload?.data,
       });
 
-      return { status: response.status, message: response.data.message };
+      return { status: response?.status, message: response?.data?.message };
     } catch (error: any) {
       const errorMessage =
-        error.response?.data?.message || "Failed to update profile";
+        error?.response?.data?.message || "Failed to update profile";
       return rejectWithValue(errorMessage);
     }
   }
@@ -42,33 +32,19 @@ export const updateUser = createAsyncThunk(
 
 export const deleteUser = createAsyncThunk(
   "user/deleteUser",
-  async (_, { getState, rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const state = getState() as RootState;
-      const user = selectSessionUser(state);
+      const response = await axios.get("/api/delete-account");
 
-      if (!user) {
-        return rejectWithValue("User is not authenticated");
-      }
-
-      const response = await fetch("/api/delete-account", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id: user.id }),
-      });
-
-      if (!response.ok) {
-        const errorResponse = await response.json();
+      if (response?.status !== 200) {
         return rejectWithValue(
-          errorResponse.message || "Failed to delete account"
+          response?.data?.message || "Failed to delete account"
         );
       }
-      const data = await response.json();
-      return { status: response.status, message: data.message };
+
+      return { status: response?.status, message: response?.data?.message };
     } catch (error: any) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error?.message);
     }
   }
 );

@@ -17,11 +17,7 @@ export const useLoginForm = () => {
   const isVerified = searchParams.get("verified");
   const error = searchParams.get("error");
 
-  const {
-    loading: loginLoading,
-    error: loginError,
-    loginSuccess,
-  } = useAppSelector((state) => state.login);
+  const { loading: loginLoading } = useAppSelector((state) => state?.login);
 
   useEffect(() => {
     if (error === "OAuthCallbackError") {
@@ -67,7 +63,7 @@ export const useLoginForm = () => {
         userVerification(user)
       ).unwrap();
 
-      if (userVerificationResponse.status === 203) {
+      if (userVerificationResponse?.status === 203) {
         Swal.fire({
           title: "Verification email sent!",
           text: "Your email is not verified. Please check your inbox for verification.",
@@ -79,9 +75,9 @@ export const useLoginForm = () => {
 
       try {
         const availabilityResponse = await dispatch(
-          fetchAvailability(user.email)
+          fetchAvailability(user?.email)
         ).unwrap();
-        if (availabilityResponse.availability === null) {
+        if (availabilityResponse?.availability === null) {
           showAvailability = true;
         }
       } catch (error) {}
@@ -97,6 +93,13 @@ export const useLoginForm = () => {
           icon: "error",
           title: "Oops...",
           text: "You have logged in with Google with this account before! If you want to add password credentials, please use forgot password to set a new password.",
+        });
+        return;
+      } else if (error == "Error sending email") {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Your email is not verified. But we are unable to send verification link to your email at this moment. Please try again later in 24 to 48 hours.",
         });
         return;
       }

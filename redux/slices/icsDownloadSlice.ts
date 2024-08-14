@@ -3,7 +3,6 @@ import { RootState } from "../store";
 import axios from "axios";
 import { IcsDownloadState } from "@/types/types";
 
-
 const initialState: IcsDownloadState = {
   loading: false,
   error: null,
@@ -29,11 +28,11 @@ export const downloadIcsFile = createAsyncThunk(
         { responseType: "blob" }
       );
 
-      return response.data;
+      return response?.data;
     } catch (error: any) {
       return rejectWithValue(
-        error.response?.data?.message ||
-          error.message ||
+        error?.response?.data?.message ||
+          error?.message ||
           "Error downloading ICS file."
       );
     }

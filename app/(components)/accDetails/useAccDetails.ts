@@ -33,11 +33,11 @@ export const useAccDetails = () => {
   }, []);
 
   useEffect(() => {
-    if (session.data?.user?.name) {
+    if (session?.data?.user?.name) {
       setUserData({
-        name: session.data.user.name,
-        email: session.data.user.email,
-        image: session.data.user.image,
+        name: session?.data?.user?.name,
+        email: session?.data?.user?.email,
+        image: session?.data?.user?.image,
       });
     }
   }, [session]);

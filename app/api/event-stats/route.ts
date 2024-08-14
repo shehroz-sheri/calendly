@@ -1,12 +1,28 @@
+import { auth } from "@/auth";
 import { prisma } from "@/config/prisma";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export const POST = async (req: NextRequest) => {
+export const GET = auth(async function GET(req) {
+  const email = req.auth?.user?.email;
+
+  if (!email)
+    return NextResponse.json(
+      { message: "User is not authenticated" },
+      { status: 401 }
+    );
   try {
-    const { hostId } = await req.json();
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (!user) {
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
 
     const events = await prisma.event.findMany({
-      where: { hostId: hostId },
+      where: { hostId: user?.id },
       select: {
         id: true,
         visitCount: true,
@@ -15,9 +31,9 @@ export const POST = async (req: NextRequest) => {
     });
 
     const visitStats = events.reduce((acc, event) => {
-      acc[event.id] = {
-        visitCount: event.visitCount,
-        peakHours: event.visitRecords.reduce((peakAcc, visit) => {
+      acc[event?.id] = {
+        visitCount: event?.visitCount,
+        peakHours: event?.visitRecords.reduce((peakAcc, visit) => {
           const hour = new Date(visit).getHours();
           peakAcc[hour] = (peakAcc[hour] || 0) + 1;
           return peakAcc;
@@ -33,4 +49,4 @@ export const POST = async (req: NextRequest) => {
       { status: 500 }
     );
   }
-};
+});

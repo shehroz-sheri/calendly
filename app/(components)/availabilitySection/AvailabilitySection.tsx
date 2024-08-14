@@ -2,24 +2,12 @@
 
 import Image from "next/image"
 import Logo from "../logo/Logo"
-import AvailImg from '../../../public/assets/images/availability.svg'
 import TimeDropdown from "../timeDropdown/TimeDropdown"
 import { TbSpeakerphone } from "react-icons/tb"
-import ProgressBar from '../../../public/assets/images/Progressbar.svg'
 import Link from "next/link"
 import { useAvailability } from "./useAvailability"
-
-
-const daysOfWeek = [
-    { value: 'sunday', label: 'Sundays' },
-    { value: 'monday', label: 'Mondays' },
-    { value: 'tuesday', label: 'Tuesdays' },
-    { value: 'wednesday', label: 'Wednesdays' },
-    { value: 'thursday', label: 'Thursdays' },
-    { value: 'friday', label: 'Fridays' },
-    { value: 'saturday', label: 'Saturdays' },
-];
-
+import { daysOfWeek } from "@/constants/Constants"
+import { availabilityImg, progressBar } from "@/public/assets"
 
 
 const AvailabilitySection: React.FC = () => {
@@ -46,7 +34,7 @@ const AvailabilitySection: React.FC = () => {
                                     <p className="sm:w-[365px] h-[45px] text-[14.88px] leading-[22.4px]">Let Calendly know when you're typically available to accept meetings.</p>
                                 </div>
                                 <div className="w-[185.44px] flex max-sm:mx-auto items-end">
-                                    <Image width={185.44} src={AvailImg} alt="Availability" loading="lazy" />
+                                    <Image width={185.44} height={185.44} src={availabilityImg} alt="Availability" loading="lazy" />
                                 </div>
                             </div>
                         </div>
@@ -65,21 +53,21 @@ const AvailabilitySection: React.FC = () => {
                             <div className="min-h-[90px] flex flex-col justify-around">
                                 <p className="font-bold text-[14.88px] leading-[22px]">Available days</p>
                                 <div className="grid grid-cols-4 gap-0 border-[1.5px] rounded-lg justify-items-center sm:grid-cols-7 max-sm:mt-2">
-                                    {daysOfWeek.map((day, index) => (
+                                    {daysOfWeek?.map((day, index) => (
                                         <div
-                                            key={day.value}
+                                            key={day?.value}
                                             className={`flex flex-col ${index < 6 ? 'border-r-[1.5px]' : 'max-sm:border-r-[1.5px]'} ${index <= 3 ? 'max-sm:border-b-[1.5px]' : ''} items-center justify-center w-[84.7px] h-[58px]`}
                                         >
                                             <input
                                                 type="checkbox"
-                                                id={day.value}
-                                                value={day.value}
-                                                name={day.value}
-                                                checked={days[day.value as keyof typeof days]}
+                                                id={day?.value}
+                                                value={day?.value}
+                                                name={day?.value}
+                                                checked={days[day?.value as keyof typeof days]}
                                                 onChange={handleCheckboxChange}
                                             />
-                                            <label htmlFor={day.value} className="mt-2 text-[11.06px]">
-                                                {day.label}
+                                            <label htmlFor={day?.value} className="mt-2 text-[11.06px]">
+                                                {day?.label}
                                             </label>
                                         </div>
                                     ))}
@@ -100,7 +88,7 @@ const AvailabilitySection: React.FC = () => {
                     <div className="w-[95%] sm:w-[645px] mt-4 mx-auto">
                         <div className="flex justify-between items-center">
                             <div>
-                                <Image src={ProgressBar} alt="progress-bar" />
+                                <Image width={100} height={100} src={progressBar} alt="progress-bar" />
                             </div>
                             <div>
                                 {

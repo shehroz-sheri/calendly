@@ -5,7 +5,6 @@ import { Toaster } from "react-hot-toast";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import ReduxProvider from "../providers/reduxProvider";
-import FetchSession from "@/libs/fetchSession";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,16 +21,13 @@ export default async function RootLayout({
 
   const session = await auth()
 
-
   return (
     <html lang="en">
       <body className={`${inter.className} text-dark`}>
         <SessionProvider session={session}>
           <ReduxProvider>
-            <FetchSession>
-              <Toaster />
-              {children}
-            </FetchSession>
+            <Toaster />
+            {children}
           </ReduxProvider>
         </SessionProvider>
       </body>

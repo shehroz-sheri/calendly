@@ -23,6 +23,19 @@ export type AppointmentDetails = {
   googleMeetUrl?: string;
 };
 
+type AppointmentDetailItemProps = {
+  icon: ReactNode;
+  title: string;
+  content: string;
+  iconBgColor: string;
+};
+
+type AvailabilityState = {
+  availableDays: string[];
+  loading: boolean;
+  error: string | null;
+};
+
 export type TimeDropdownProps = {
   id: string;
   onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -60,7 +73,7 @@ export type EventSuccessProps = {
   } | null;
 };
 
-export type InputFieldProps = {
+export type FormInputFieldProps = {
   id: string;
   name: string;
   type: string;
@@ -68,22 +81,17 @@ export type InputFieldProps = {
   placeholder?: string;
   required?: boolean;
   minLength?: number;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  maxLength?: number;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  label?: string;
+  showPassword?: boolean;
+  togglePasswordVisibility?: () => void;
+  className?: string;
 };
 
 export type LogoProps = {
   width: number;
   className?: string;
-};
-
-export type PasswordFieldProps = {
-  id: string;
-  name: string;
-  label: string;
-  value: string;
-  showPassword: boolean;
-  togglePasswordVisibility: () => void;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export type UserData = {
@@ -160,7 +168,7 @@ export type AppointmentDetailsState = {
   status: number | null;
 };
 
-export type AvailabilityState = {
+export type AvailabilitySliceState = {
   response: {
     status: number | null;
     message: string | null;

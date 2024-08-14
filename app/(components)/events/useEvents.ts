@@ -25,33 +25,40 @@ export const useEvents = () => {
   const getEvents = async () => {
     try {
       const res = await dispatch(fetchEvents());
-      if (res.payload !== "User is not authenticated") {
-        setEvents(res.payload);
+
+      if (fetchEvents.fulfilled.match(res)) {
+        setEvents(res?.payload || []);
       }
     } catch (error) {
       toast.error("Error fetching events. Please try again later.");
+      setEvents([]);
+      return;
     }
   };
 
+  useEffect(() => {
+    getEvents();
+  }, []);
+
   const upcomingEvents = events?.filter((event) =>
-    isEventUpcoming(parseEventDate(event.meetingDate, event.meetingStartTime))
+    isEventUpcoming(parseEventDate(event?.meetingDate, event?.meetingStartTime))
   );
   const pastEvents = events?.filter(
     (event) =>
       !isEventUpcoming(
-        parseEventDate(event.meetingDate, event.meetingStartTime)
+        parseEventDate(event?.meetingDate, event?.meetingStartTime)
       )
   );
 
   const sortedUpcomingEvents = upcomingEvents.sort(
     (a, b) =>
-      parseEventDate(a.meetingDate, a.meetingStartTime).getTime() -
-      parseEventDate(b.meetingDate, b.meetingStartTime).getTime()
+      parseEventDate(a?.meetingDate, a?.meetingStartTime).getTime() -
+      parseEventDate(b?.meetingDate, b?.meetingStartTime).getTime()
   );
   const sortedPastEvents = pastEvents.sort(
     (a, b) =>
-      parseEventDate(b.meetingDate, b.meetingStartTime).getTime() -
-      parseEventDate(a.meetingDate, a.meetingStartTime).getTime()
+      parseEventDate(b?.meetingDate, b?.meetingStartTime).getTime() -
+      parseEventDate(a?.meetingDate, a?.meetingStartTime).getTime()
   );
 
   const displayEvents =
@@ -66,13 +73,13 @@ export const useEvents = () => {
       transformEvent({
         ...event,
         startDateTime: parseDateTime(
-          event.meetingDate,
-          event.meetingStartTime,
+          event?.meetingDate,
+          event?.meetingStartTime,
           "Asia/Karachi"
         ),
         endDateTime: parseDateTime(
-          event.meetingDate,
-          event.meetingEndTime,
+          event?.meetingDate,
+          event?.meetingEndTime,
           "Asia/Karachi"
         ),
       })
@@ -84,13 +91,13 @@ export const useEvents = () => {
       transformEvent({
         ...event,
         startDateTime: parseDateTime(
-          event.meetingDate,
-          event.meetingStartTime,
+          event?.meetingDate,
+          event?.meetingStartTime,
           "Asia/Karachi"
         ),
         endDateTime: parseDateTime(
-          event.meetingDate,
-          event.meetingEndTime,
+          event?.meetingDate,
+          event?.meetingEndTime,
           "Asia/Karachi"
         ),
       })
@@ -98,7 +105,7 @@ export const useEvents = () => {
   };
 
   const exportEvents = async () => {
-    if (events.length === 0) {
+    if (events?.length === 0) {
       toast.error("No events to export!");
       return;
     }
@@ -126,9 +133,19 @@ export const useEvents = () => {
     }
   };
 
-  useEffect(() => {
-    getEvents();
-  }, []);
+  const filteredDisplayEvents =
+    currentTab === "upcoming" || currentTab === "pending"
+      ? events?.filter((event) =>
+          isEventUpcoming(
+            parseEventDate(event?.meetingDate, event?.meetingStartTime)
+          )
+        )
+      : events?.filter(
+          (event) =>
+            !isEventUpcoming(
+              parseEventDate(event?.meetingDate, event?.meetingStartTime)
+            )
+        );
 
   return {
     events,
@@ -138,5 +155,6 @@ export const useEvents = () => {
     icsLoading,
     groupedEvents,
     exportEvents,
+    filteredDisplayEvents,
   };
 };

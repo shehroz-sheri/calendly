@@ -1,8 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import axios from 'axios';
+import axios from "axios";
 import { AppointmentDetailsState } from "@/types/types";
-
 
 const initialState: AppointmentDetailsState = {
   appointment: null,
@@ -21,11 +20,13 @@ export const fetchAppointmentDetails = createAsyncThunk(
         },
       });
 
-      return { data: response.data, status: response.status };
+      return { data: response?.data, status: response?.status };
     } catch (error: any) {
       const errorMessage =
-        error.response?.data?.message || error.message || "An error occurred.";
-      const status = error.response?.status || 500;
+        error?.response?.data?.message ||
+        error?.message ||
+        "An error occurred.";
+      const status = error?.response?.status || 500;
       return rejectWithValue({ message: errorMessage, status });
     }
   }

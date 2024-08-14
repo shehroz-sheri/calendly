@@ -5,17 +5,8 @@ import { IoPlay } from "react-icons/io5";
 import { MdArrowDropDown, MdOutlineFilterList } from "react-icons/md";
 import Link from "next/link";
 import { FaSpinner } from "react-icons/fa";
-import { parseEventDate, isEventUpcoming } from '../../../utils/eventDate';
-import { TabValue } from "@/types/types";
 import { useEvents } from "./useEvents";
-
-
-
-const tabs: { name: string; value: TabValue }[] = [
-  { name: 'Upcoming', value: 'upcoming' },
-  { name: 'Pending', value: 'pending' },
-  { name: 'Past', value: 'past' }
-];
+import { dashboardTabs } from "@/constants/Constants";
 
 
 const Events: React.FC = () => {
@@ -27,12 +18,8 @@ const Events: React.FC = () => {
     icsLoading,
     groupedEvents,
     exportEvents,
+    filteredDisplayEvents
   } = useEvents();
-
-  const displayEvents = currentTab === 'upcoming' || currentTab === 'pending'
-    ? events.filter(event => isEventUpcoming(parseEventDate(event.meetingDate, event.meetingStartTime)))
-    : events.filter(event => !isEventUpcoming(parseEventDate(event.meetingDate, event.meetingStartTime)));
-
 
   return (
     <>
@@ -45,20 +32,20 @@ const Events: React.FC = () => {
             </select>
 
             <p className="text-[14.5px] text-gray-400 mt-auto">
-              Displaying {displayEvents.length} of {events.length} Events
+              Displaying {filteredDisplayEvents?.length} of {events?.length} Events
             </p>
           </div>
 
           <div className="rounded shadow mt-6 border border-gray-300 mb-2">
             <div className="md:flex max-sm:flex-col md:justify-between bg-white sm:h-16 px-6 max-sm:py-2 rounded-t rounded-r border-b border-gray-300">
               <div className="flex gap-5 sm:gap-7 max-sm:justify-center max-sm:mb-2 items-center text-[15px] max-sm:border-b max-sm:border-gray-300 ">
-                {tabs.map(tab => (
+                {dashboardTabs?.map(tab => (
                   <p
-                    key={tab.value}
-                    onClick={() => setCurrentTab(tab.value as 'upcoming' | 'pending' | 'past')}
-                    className={`cursor-pointer max-md:pb-2 ${currentTab === tab.value ? 'text-dark border-b-4 border-primary md:pb-[17px] mt-auto' : 'text-dark/60'}`}
+                    key={tab?.value}
+                    onClick={() => setCurrentTab(tab?.value as 'upcoming' | 'pending' | 'past')}
+                    className={`cursor-pointer max-md:pb-2 ${currentTab === tab?.value ? 'text-dark border-b-4 border-primary md:pb-[17px] mt-auto' : 'text-dark/60'}`}
                   >
-                    {tab.name}
+                    {tab?.name}
                   </p>
                 ))}
                 <p className="cursor-pointer max-md:hidden text-dark/60">
@@ -81,8 +68,8 @@ const Events: React.FC = () => {
                   <FaSpinner className="animate-spin h-10 w-10 text-primary" />
                 </div>
               ) : (
-                Object.keys(groupedEvents).length > 0
-                  ? Object.keys(groupedEvents).map(date => (
+                Object.keys(groupedEvents)?.length > 0
+                  ? Object.keys(groupedEvents)?.map(date => (
                     <div key={date}>
                       <div className="border-b border-gray-300 h-[58px] px-6 flex items-center max-sm:justify-center bg-gray-100">
                         <p className="font-bold max-sm:text-center text-[14.88px]">
@@ -92,18 +79,18 @@ const Events: React.FC = () => {
                       <div className="overflow-x-auto min-w-full">
                         <table className="min-w-full divide-y divide-gray-200 text-[13.88px]">
                           <tbody>
-                            {groupedEvents[date].map((event, i) => (
+                            {groupedEvents[date]?.map((event, i) => (
                               <tr key={i} className="bg-white border-b border-gray-300 h-20">
                                 <td className="px-6 py-4 whitespace-nowrap">
                                   <a className="flex items-center">
                                     <div className={`w-7 h-7 inline-block bg-purple rounded-full mr-2`}></div>
-                                    {event.meetingStartTime} - {event.meetingEndTime}
+                                    {event?.meetingStartTime} - {event?.meetingEndTime}
                                   </a>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
-                                  <p className="font-bold">{event.attendeeName}</p>
+                                  <p className="font-bold">{event?.attendeeName}</p>
                                   <p>
-                                    Event type{" "}
+                                    Event type&nbsp;
                                     <span className="font-bold">30 Minute Meeting</span>
                                   </p>
                                 </td>

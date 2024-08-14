@@ -12,8 +12,8 @@ export const POST = async (req: NextRequest) => {
 
   return new NextResponse(icsContent, {
     headers: {
-      'Content-Type': 'text/calendar',
-      'Content-Disposition': 'attachment; filename="event.ics"',
+      "Content-Type": "text/calendar",
+      "Content-Disposition": 'attachment; filename="event.ics"',
     },
   });
 };

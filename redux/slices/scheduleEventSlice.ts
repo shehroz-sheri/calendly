@@ -1,9 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { RootState } from "../store";
-import { selectSessionUser } from "./sessionSlice";
 import axios from "axios";
 import { EventInfo, ScheduleEventState } from "@/types/types";
-
 
 const initialState: ScheduleEventState = {
   loading: false,
@@ -14,37 +11,25 @@ const initialState: ScheduleEventState = {
 export const scheduleEvent = createAsyncThunk(
   "scheduleEvent/scheduleEvent",
   async (
-    {
-      eventDetails,
-      refreshToken,
-    }: { eventDetails: EventInfo; refreshToken: string | undefined },
-    { getState, rejectWithValue }
+    { eventDetails }: { eventDetails: EventInfo },
+    { rejectWithValue }
   ) => {
     try {
-      const state = getState() as RootState;
-      const user = selectSessionUser(state);
-
-      if (!user) {
-        return rejectWithValue("User is not authenticated");
-      }
-
       const response = await axios.post("/api/schedule-event", {
-        user,
         eventDetails,
-        refreshToken,
       });
 
-      if (response.status !== 201) {
+      if (response?.status !== 201) {
         return rejectWithValue(
-          response.data.message ||
+          response?.data?.message ||
             "Something went wrong! Please try again later."
         );
       }
 
-      return response.data;
+      return response?.data;
     } catch (error: any) {
       return rejectWithValue(
-        error.response?.data?.message || "Failed to schedule event"
+        error?.response?.data?.message || "Failed to schedule event"
       );
     }
   }

@@ -29,10 +29,9 @@ export const useAppointment = (id: string | undefined) => {
         };
 
         if (res.payload?.status === 200) {
-          setAppointment(res.payload.data);
+          setAppointment(res?.payload?.data);
         }
       };
-
       fetchEventDetails();
     }
   }, [dispatch, id]);
@@ -40,19 +39,19 @@ export const useAppointment = (id: string | undefined) => {
   const handleDownloadICS = async () => {
     if (appointment) {
       const startDateTime = parseDateTime(
-        appointment.meetingDate,
-        appointment.meetingStartTime,
+        appointment?.meetingDate,
+        appointment?.meetingStartTime,
         "Asia/Karachi"
       );
       const endDateTime = parseDateTime(
-        appointment.meetingDate,
-        appointment.meetingEndTime,
+        appointment?.meetingDate,
+        appointment?.meetingEndTime,
         "Asia/Karachi"
       );
       const res = await dispatch(
         downloadIcsFile({
           title: "30 Minutes Meeting",
-          description: appointment.meetingMessage || "",
+          description: appointment?.meetingMessage || "",
           location: "Online Meeting",
           startDateTime: startDateTime,
           endDateTime: endDateTime,
@@ -60,8 +59,8 @@ export const useAppointment = (id: string | undefined) => {
         })
       );
 
-      if (res.meta.requestStatus === "fulfilled") {
-        const blob = res.payload as Blob;
+      if (res?.meta?.requestStatus === "fulfilled") {
+        const blob = res?.payload as Blob;
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
@@ -79,13 +78,13 @@ export const useAppointment = (id: string | undefined) => {
   const generateGoogleCalendarLink = () => {
     if (appointment) {
       const startDateTime = parseDateTime(
-        appointment.meetingDate,
-        appointment.meetingStartTime,
+        appointment?.meetingDate,
+        appointment?.meetingStartTime,
         "Asia/Karachi"
       );
       const endDateTime = parseDateTime(
-        appointment.meetingDate,
-        appointment.meetingEndTime,
+        appointment?.meetingDate,
+        appointment?.meetingEndTime,
         "Asia/Karachi"
       );
 
@@ -106,11 +105,18 @@ export const useAppointment = (id: string | undefined) => {
     }
   };
 
+  function handleGoogleMeetClick(googleMeetUrl: string) {
+    if (!googleMeetUrl) {
+      toast.error("Google Meet URL is not available.");
+    }
+  }
+
   return {
     appointment,
     loading,
     loadingIcsDownload,
     handleDownloadICS,
     generateGoogleCalendarLink,
+    handleGoogleMeetClick,
   };
 };

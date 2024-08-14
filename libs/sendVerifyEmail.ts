@@ -1,8 +1,11 @@
 import nodemailer from "nodemailer";
 
-const sendVerificationEmail = async (email: string, verificationUrl: string) => {
+const sendVerificationEmail = async (
+  email: string,
+  verificationUrl: string
+) => {
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    service: "gmail",
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
@@ -12,7 +15,7 @@ const sendVerificationEmail = async (email: string, verificationUrl: string) => 
   const mailOptions = {
     from: process.env.SMTP_USER,
     to: email,
-    subject: 'Verify your email',
+    subject: "Verify your email",
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
         <h2 style="text-align: center; color: #4CAF50;">Email Verification</h2>
@@ -35,7 +38,7 @@ const sendVerificationEmail = async (email: string, verificationUrl: string) => 
   try {
     await transporter.sendMail(mailOptions);
   } catch (error) {
-    throw new Error('Error sending email');
+    throw new Error("Error sending email");
   }
 };
 

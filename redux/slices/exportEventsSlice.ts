@@ -3,7 +3,6 @@ import { RootState } from "../store";
 import axios from "axios";
 import { EventDetails, ExportEventsState } from "@/types/types";
 
-
 const initialState: ExportEventsState = {
   loading: false,
   error: null,
@@ -24,14 +23,14 @@ export const exportEventsThunk = createAsyncThunk(
         }
       );
 
-      if (response.status !== 200) {
-        throw new Error(response.statusText || "Failed to download ICS file");
+      if (response?.status !== 200) {
+        throw new Error(response?.statusText || "Failed to download ICS file");
       }
 
-      return response.data;
+      return response?.data;
     } catch (error: any) {
       return rejectWithValue(
-        error.response?.data?.message || error.message || "Unknown error"
+        error?.response?.data?.message || error?.message || "Unknown error"
       );
     }
   }

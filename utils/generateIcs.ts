@@ -5,13 +5,13 @@ export const generateICS = (eventDetails: EventDetailsICS): string | null => {
   const { title, description, location, startDateTime, endDateTime } =
     eventDetails;
 
-  const [startDate, startTime] = startDateTime.split("T");
-  const [endDate, endTime] = endDateTime.split("T");
+  const [startDate, startTime] = startDateTime?.split("T");
+  const [endDate, endTime] = endDateTime?.split("T");
 
-  const [startYear, startMonth, startDay] = startDate.split("-").map(Number);
-  const [startHour, startMinute] = startTime.split(":").map(Number);
-  const [endYear, endMonth, endDay] = endDate.split("-").map(Number);
-  const [endHour, endMinute] = endTime.split(":").map(Number);
+  const [startYear, startMonth, startDay] = startDate?.split("-")?.map(Number);
+  const [startHour, startMinute] = startTime?.split(":")?.map(Number);
+  const [endYear, endMonth, endDay] = endDate?.split("-")?.map(Number);
+  const [endHour, endMinute] = endTime?.split(":")?.map(Number);
 
   const event: EventAttributes = {
     start: [

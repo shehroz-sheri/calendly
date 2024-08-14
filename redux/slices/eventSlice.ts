@@ -1,9 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { selectSessionUser } from "./sessionSlice";
 import axios from "axios";
 import { EventsState } from "@/types/types";
-
 
 const initialState: EventsState = {
   events: [],
@@ -13,24 +11,15 @@ const initialState: EventsState = {
 
 export const fetchEvents = createAsyncThunk(
   "events/fetchEvents",
-  async (_, { getState, rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const state = getState() as RootState;
-      const user = selectSessionUser(state);
+      const response = await axios.get("/api/get-events");
 
-      if (!user) {
-        return rejectWithValue("User is not authenticated");
-      }
-
-      const response = await axios.post("/api/get-events", {
-        userId: user.id,
-      });
-
-      return response.data.events;
+      return response?.data?.events;
     } catch (error: any) {
       const errorMessage =
-        error.response?.data?.message ||
-        error.message ||
+        error?.response?.data?.message ||
+        error?.message ||
         "Failed to fetch events.";
       return rejectWithValue(errorMessage);
     }

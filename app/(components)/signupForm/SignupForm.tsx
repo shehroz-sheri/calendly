@@ -1,10 +1,9 @@
 'use client'
 
-import InputField from "../inputField/InputField";
-import PasswordField from "../passwordField/PasswordField";
 import Link from "next/link";
 import GoogleLogin from "../googleLogin/GoogleLogin";
 import { useSignupForm } from "./useSignupForm";
+import FormInputField from "../formInputField/FormInputField";
 
 const SignupForm: React.FC = () => {
     const {
@@ -16,7 +15,6 @@ const SignupForm: React.FC = () => {
         togglePasswordVisibility,
         getPasswordStrength,
         signupLoading,
-        error
     } = useSignupForm();
 
     return (
@@ -24,52 +22,63 @@ const SignupForm: React.FC = () => {
             <div className="border sm:w-[440px] rounded-lg py-6 my-2 shadow text-left mx-auto">
                 <form onSubmit={handleUserRegister}>
                     <div className="px-3 sm:px-[33px] sm:pt-[33px]">
-                        <InputField
+                        <FormInputField
                             id="email"
                             name="email"
                             type="email"
-                            value={user.email}
+                            value={user?.email}
                             placeholder="test@example.com"
                             required
+                            label="Email"
                             onChange={handleChange}
+                            className="border-[1.5px] text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                         />
-                        <InputField
+                        <FormInputField
                             id="name"
                             name="name"
                             type="text"
-                            value={user.name}
+                            value={user?.name}
                             placeholder="Shehroz Arshad"
                             required
+                            label="Name"
                             minLength={3}
                             onChange={handleChange}
+                            className="border-[1.5px] text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                         />
-                        <InputField
+                        <FormInputField
                             id="username"
                             name="username"
                             type="text"
-                            value={user.username}
+                            value={user?.username}
                             placeholder="shehroz.sheri1"
                             required
+                            label="Username"
                             minLength={4}
                             onChange={handleChange}
+                            className="border-[1.5px] text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                         />
                         {usernameError && (
                             <p className="text-danger text-[12px]">{usernameError}</p>
                         )}
-                        <PasswordField
+                        <FormInputField
                             id="password"
                             name="password"
-                            label="Choose a password with at least 8 characters"
-                            value={user.password}
+                            type="password"
+                            label="Choose a password with at least 6 characters"
+                            value={user?.password}
+                            minLength={6}
+                            maxLength={9}
                             showPassword={showPassword}
+                            placeholder="Enter password"
                             togglePasswordVisibility={togglePasswordVisibility}
                             onChange={handleChange}
+                            className="border-[1.5px] text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                         />
                         <div className="mt-1 h-[60px] flex flex-col justify-around">
                             <div className="h-1 bg-gray-200 rounded">
                                 <div
                                     className="h-full bg-primary rounded"
-                                    style={{ width: `${getPasswordStrength(user.password)}%` }}
+                                    style={{ width: `${getPasswordStrength(user?.password)}%` }}
                                 ></div>
                             </div>
                             <div className="h-[42px] min-w-[297.28px] ml-5">

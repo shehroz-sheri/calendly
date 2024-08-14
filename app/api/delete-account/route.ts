@@ -1,10 +1,24 @@
+import { auth } from "@/auth";
 import { prisma } from "@/config/prisma";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export const POST = async (req: NextRequest) => {
-  const { id } = await req.json();
-
+export const GET = auth(async function GET(req) {
   try {
+    const userEmail = req.auth?.user?.email;
+    const user = await prisma.user.findUnique({
+      where: {
+        email: userEmail,
+      },
+    });
+
+    if (!user) {
+      return NextResponse.json({
+        message: "User not found.",
+        status: 404,
+      });
+    }
+
+    const id = user?.id;
     try {
       await prisma.userAvailability.delete({
         where: {
@@ -39,5 +53,4 @@ export const POST = async (req: NextRequest) => {
       status: 500,
     });
   }
-};
-
+});

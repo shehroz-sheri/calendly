@@ -1,9 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { RootState } from "../store";
-import { selectSessionUser } from "./sessionSlice";
 import axios from "axios";
 import { FetchAvailabilityState } from "@/types/types";
-
 
 const initialState: FetchAvailabilityState = {
   availability: null,
@@ -13,27 +10,18 @@ const initialState: FetchAvailabilityState = {
 
 export const fetchAvailability = createAsyncThunk(
   "fetchAvailability/fetchAvailability",
-  async (_, { getState, rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const state = getState() as RootState;
-      const user = selectSessionUser(state);
+      const response = await axios.get("/api/event-availability");
 
-      if (!user) {
-        return rejectWithValue("User is not authenticated");
-      }
-
-      const response = await axios.post("/api/event-availability", {
-        email: user.email,
-      });
-
-      if (response.status !== 200) {
+      if (response?.status !== 200) {
         throw new Error("Failed to fetch availability");
       }
 
-      return response.data.availability;
+      return response?.data?.availability;
     } catch (error: any) {
       return rejectWithValue(
-        error.response?.data?.message || error.message || "Unknown error"
+        error?.response?.data?.message || error?.message || "Unknown error"
       );
     }
   }

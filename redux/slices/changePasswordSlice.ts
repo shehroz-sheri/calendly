@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { selectSessionUser } from "./sessionSlice";
 import axios from "axios";
 import { ChangePasswordState } from "@/types/types";
 
@@ -15,26 +14,18 @@ export const changePassword = createAsyncThunk(
   "changePassword/changePassword",
   async (
     payload: { oldPassword: string; newPassword: string },
-    { getState, rejectWithValue }
+    { rejectWithValue }
   ) => {
     try {
-      const state = getState() as RootState;
-      const user = selectSessionUser(state);
-
-      if (!user) {
-        return rejectWithValue("User is not authenticated");
-      }
-
       const response = await axios.post("/api/update/change-password", {
-        email: user.email,
         ...payload,
       });
 
-      return { status: response.status, message: response.data.message };
+      return { status: response?.status, message: response?.data?.message };
     } catch (error: any) {
       const errorMessage =
-        error.response?.data?.message ||
-        error.message ||
+        error?.response?.data?.message ||
+        error?.message ||
         "Failed to change password.";
       return rejectWithValue(errorMessage);
     }

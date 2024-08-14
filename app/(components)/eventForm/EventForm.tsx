@@ -2,6 +2,7 @@
 
 import { EventFormProps } from "@/types/types";
 import { useEventForm } from "./useEventForm";
+import { eventFormFields } from "@/constants/Constants";
 
 const EventForm: React.FC<EventFormProps> = (props) => {
     const { formValues, handleChange, handleSubmit, loading } = useEventForm(props);
@@ -11,17 +12,31 @@ const EventForm: React.FC<EventFormProps> = (props) => {
             <h4 className="font-bold text-xl">Enter Details</h4>
 
             <form className="my-4" onSubmit={handleSubmit}>
-                <label htmlFor="name" className="text-[14.75px] font-bold leading-[35px]">Name</label>
-                <input type="text" name="name" id="name" required value={formValues.name}
-                    onChange={handleChange} className="border-[1.5px] text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full md:w-[75%] p-2" />
-
-                <label htmlFor="email" className="text-[14.75px] font-bold leading-[35px]">Email</label>
-                <input type="email" name="email" id="email" required value={formValues.email}
-                    onChange={handleChange} className="border-[1.5px] text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full md:w-[75%] p-2" />
-
-                <label htmlFor="message" className="text-[14.75px] font-bold leading-[35px]">Please share anything that will help prepare for our meeting.</label>
-                <textarea name="message" id="message" required value={formValues.message}
-                    onChange={handleChange} className="border-[1.5px] text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full md:w-[75%] p-2" />
+                {eventFormFields?.map(({ label, type, name, id, required }) => (
+                    <div key={name}>
+                        <label htmlFor={id} className="text-[14.75px] font-bold leading-[35px]">{label}</label>
+                        {type === "textarea" ? (
+                            <textarea
+                                name={name}
+                                id={id}
+                                required={required}
+                                value={formValues?.[name]}
+                                onChange={handleChange}
+                                className="border-[1.5px] text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full md:w-[75%] p-2"
+                            />
+                        ) : (
+                            <input
+                                type={type}
+                                name={name}
+                                id={id}
+                                required={required}
+                                value={formValues?.[name]}
+                                onChange={handleChange}
+                                className="border-[1.5px] text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full md:w-[75%] p-2"
+                            />
+                        )}
+                    </div>
+                ))}
 
                 <p className="mt-8 text-sm md:w-[75%]">By proceeding, you confirm that you have read and agree to <span className="text-blue">Calendly's Terms of Use</span> and <span className="text-blue">Privacy Notice</span>.</p>
 

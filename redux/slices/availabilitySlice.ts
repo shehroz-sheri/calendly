@@ -1,11 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { selectSessionUser } from "./sessionSlice";
-import { RootState } from "../store";
-import axios from 'axios';
-import { AvailabilityState, SetAvailabilityPayload } from "@/types/types";
+import axios from "axios";
+import { AvailabilitySliceState, SetAvailabilityPayload } from "@/types/types";
 
-
-const initialState: AvailabilityState = {
+const initialState: AvailabilitySliceState = {
   response: {
     status: null,
     message: null,
@@ -16,23 +13,18 @@ const initialState: AvailabilityState = {
 
 export const setAvailability = createAsyncThunk(
   "availability/setAvailability",
-  async (payload: SetAvailabilityPayload, { getState, rejectWithValue }) => {
+  async (payload: SetAvailabilityPayload, { rejectWithValue }) => {
     try {
-      const state = getState() as RootState;
-      const user = selectSessionUser(state);
-
-      if (!user) {
-        return rejectWithValue("User is not authenticated");
-      }
       const response = await axios.post("/api/availability", {
-        email: user.email,
-        availability: payload.availability,
+        availability: payload?.availability,
       });
 
-      return { status: response.status, message: response.data.message };
+      return { status: response?.status, message: response?.data?.message };
     } catch (error: any) {
       const errorMessage =
-        error.response?.data?.message || error.message || "Failed to update availability.";
+        error?.response?.data?.message ||
+        error?.message ||
+        "Failed to update availability.";
       return rejectWithValue(errorMessage);
     }
   }

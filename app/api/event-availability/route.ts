@@ -1,11 +1,15 @@
+import { auth } from "@/auth";
 import { prisma } from "@/config/prisma";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export const POST = async (req: NextRequest) => {
-  const { email } = await req.json();
+export const GET = auth(async function GET(req) {
+  const email = req.auth?.user?.email;
 
   if (!email)
-    return NextResponse.json({ message: "Invalid request" }, { status: 400 });
+    return NextResponse.json(
+      { message: "User is not authenticated" },
+      { status: 401 }
+    );
 
   if (email) {
     try {
@@ -18,7 +22,7 @@ export const POST = async (req: NextRequest) => {
       if (user) {
         const availability = await prisma.userAvailability.findUnique({
           where: {
-            id: user.id,
+            id: user?.id,
           },
         });
         return NextResponse.json(
@@ -37,4 +41,4 @@ export const POST = async (req: NextRequest) => {
       );
     }
   }
-};
+});

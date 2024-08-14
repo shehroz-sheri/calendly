@@ -37,7 +37,7 @@ export const GET = async (
         await prisma.event.update({
           where: { id: id },
           data: {
-            visitCount: event.visitCount + 1,
+            visitCount: event?.visitCount + 1,
             visitRecords: {
               set: [...event.visitRecords, new Date().toISOString()],
             },
@@ -48,17 +48,17 @@ export const GET = async (
 
     return NextResponse.json(
       {
-        eventId: appointment.id,
-        hostName: appointment.host.name,
-        hostEmail: appointment.host.email,
-        inviteeName: appointment.attendeeName,
-        inviteeEmail: appointment.attendeeEmail,
-        meetingDate: appointment.meetingDate,
-        meetingStartTime: appointment.meetingStartTime,
-        meetingEndTime: appointment.meetingEndTime,
-        meetingMessage: appointment.messageForAttendee,
+        eventId: appointment?.id,
+        hostName: appointment?.host?.name,
+        hostEmail: appointment?.host?.email,
+        inviteeName: appointment?.attendeeName,
+        inviteeEmail: appointment?.attendeeEmail,
+        meetingDate: appointment?.meetingDate,
+        meetingStartTime: appointment?.meetingStartTime,
+        meetingEndTime: appointment?.meetingEndTime,
+        meetingMessage: appointment?.messageForAttendee,
         googleMeetUrl: appointment?.googleMeetUrl
-          ? appointment.googleMeetUrl
+          ? appointment?.googleMeetUrl
           : "",
       },
       { status: 200 }

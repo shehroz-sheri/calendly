@@ -15,7 +15,7 @@ import useSidebar from "./useSidebar";
 import { SidebarProps } from "@/types/types";
 
 const Sidebar: React.FC<SidebarProps> = (props) => {
-  const { collapsed, isOpen, toggleSidebar, handleCollapseToggle } = useSidebar(props.isCollapsed);
+  const { collapsed, isOpen, toggleSidebar, handleCollapseToggle } = useSidebar(props?.isCollapsed);
 
   return (
     <div className="lg:flex lg:flex-col lg:h-screen">

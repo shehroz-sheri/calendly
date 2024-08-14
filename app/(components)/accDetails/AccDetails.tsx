@@ -16,8 +16,6 @@ const AccDetails: React.FC = () => {
     handleDeleteAccount,
   } = useAccDetails();
 
-  console.log(userData.image);
-
   return (
     <div className="w-[95%] mx-auto">
       <h3 className="font-semibold text-xs text-gray-600 mb-2 sm:mb-3">
@@ -29,7 +27,7 @@ const AccDetails: React.FC = () => {
           <div className="inline-block h-[5rem] w-[5rem] rounded-full overflow-hidden bg-gray-200">
             <Image
               className="object-cover"
-              src={typeof userData.image === "string" && userData.image.length > 0 ? userData.image : "https://avatar.iran.liara.run/public"}
+              src={typeof userData?.image === "string" && userData?.image?.length > 0 ? userData?.image : "https://avatar.iran.liara.run/public"}
               alt="User Avatar"
               loading="lazy"
               width={80}
@@ -60,7 +58,7 @@ const AccDetails: React.FC = () => {
                 type="text"
                 id="name"
                 name="name"
-                value={typeof userData.name === "string" ? userData.name : ""}
+                value={typeof userData?.name === "string" ? userData?.name : ""}
                 onChange={(e) => setUserData({ ...userData, name: e.target.value })}
                 className="mt-1 border border-gray-400 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block px-3 py-2 w-full md:w-[530px]"
                 placeholder="Name"
@@ -93,10 +91,6 @@ const AccDetails: React.FC = () => {
                   className="mt-1 block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                 >
                   <option value="en">English</option>
-                  <option value="fr">Urdu</option>
-                  <option value="es">Punjabi</option>
-                  <option value="de">German</option>
-                  <option value="it">Italian</option>
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pe-3 text-primary">
                   <FaChevronDown
@@ -121,8 +115,6 @@ const AccDetails: React.FC = () => {
                     className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                   >
                     <option value="DD/MM/YYYY">DD/MM/YYYY</option>
-                    <option value="MM/DD/YYYY">MM/DD/YYYY</option>
-                    <option value="YYYY-MM-DD">YYYY-MM-DD</option>
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pe-3 text-primary">
                     <FaChevronDown
@@ -145,7 +137,6 @@ const AccDetails: React.FC = () => {
                     className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                   >
                     <option value="12h">12h (am/pm)</option>
-                    <option value="24h">24h</option>
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pe-3 text-primary">
                     <FaChevronDown
@@ -167,10 +158,6 @@ const AccDetails: React.FC = () => {
                   className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                 >
                   <option value="en">Pakistan</option>
-                  <option value="fr">United States</option>
-                  <option value="es">China</option>
-                  <option value="de">Russia</option>
-                  <option value="it">Maldives</option>
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pe-3 text-primary">
                   <FaChevronDown
@@ -194,8 +181,6 @@ const AccDetails: React.FC = () => {
                   className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                 >
                   <option value="Pakistan">Pakistan, Maldives Time</option>
-                  <option value="Maldives">Western Time (US)</option>
-                  <option value="United States">Eastern Time (US)</option>
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pe-3 text-primary">
                   <FaChevronDown

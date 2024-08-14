@@ -4,23 +4,15 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import { addMonths, subMonths, format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay, getDay, isBefore } from 'date-fns';
 import { CalendarProps } from "@/types/types";
 import { useCalendar } from "./useCalendar";
+import { dayNames, dayNamesToIndices } from "@/constants/Constants";
 
-const dayNamesToIndices: { [key: string]: number } = {
-  sunday: 0,
-  monday: 1,
-  tuesday: 2,
-  wednesday: 3,
-  thursday: 4,
-  friday: 5,
-  saturday: 6,
-};
 
 const Calendar: React.FC<CalendarProps> = ({ onDateSelect }) => {
   const { availableDays, currentMonth, selectedDate, setCurrentMonth, setSelectedDate } = useCalendar();
 
   const handleDateClick = (date: Date) => {
     const dayIndex = getDay(date);
-    const isAvailableDay = availableDays?.some(d => dayNamesToIndices[d.toLowerCase()] === dayIndex);
+    const isAvailableDay = availableDays?.some(d => dayNamesToIndices[d?.toLowerCase()] === dayIndex);
 
     if ((!isBefore(date, new Date()) || isSameDay(date, new Date())) && isAvailableDay) {
       setSelectedDate(date);
@@ -44,12 +36,11 @@ const Calendar: React.FC<CalendarProps> = ({ onDateSelect }) => {
 
   const renderDays = () => {
     const days = [];
-    const date = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
     for (let i = 0; i < 7; i++) {
       days.push(
         <th key={i} className="text-[11.63px] font-normal pb-4">
-          {date[i]}
+          {dayNames[i]}
         </th>
       );
     }
@@ -72,7 +63,7 @@ const Calendar: React.FC<CalendarProps> = ({ onDateSelect }) => {
         formattedDate = format(day, "d");
         const cloneDay = day;
         const dayIndex = getDay(day);
-        const isAvailableDay = availableDays?.some(d => dayNamesToIndices[d.toLowerCase()] === dayIndex);
+        const isAvailableDay = availableDays?.some(d => dayNamesToIndices[d?.toLowerCase()] === dayIndex);
 
         days.push(
           <td key={day.toString()} className="text-center py-2" onClick={() => handleDateClick(cloneDay)}>

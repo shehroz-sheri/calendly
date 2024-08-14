@@ -1,14 +1,21 @@
+import { auth } from "@/auth";
 import { prisma } from "@/config/prisma";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export const POST = async (req: NextRequest) => {
-  const { userId } = await req.json();
+export const GET = auth(async function GET(req) {
+  const userEmail = req.auth?.user?.email;
 
-  if (userId) {
+  if (userEmail) {
     try {
+      const user = await prisma.user.findUnique({
+        where: {
+          email: userEmail,
+        },
+      });
+
       const existingEvents = await prisma.event.findMany({
         where: {
-          hostId: userId,
+          hostId: user?.id,
         },
       });
 
@@ -18,7 +25,6 @@ export const POST = async (req: NextRequest) => {
           { status: 200 }
         );
       }
-
 
       return NextResponse.json(
         { message: "Events not found." },
@@ -32,6 +38,9 @@ export const POST = async (req: NextRequest) => {
       );
     }
   } else {
-    return NextResponse.json({ message: "Session error. Please login again." }, { status: 401 });
+    return NextResponse.json(
+      { message: "Session error. Please login again." },
+      { status: 401 }
+    );
   }
-};
+});

@@ -17,10 +17,10 @@ export const signupUser = createAsyncThunk(
     try {
       const response = await axios.post("/api/signup", user);
 
-      return { status: response.status, message: response.data.message };
+      return { status: response?.status, message: response?.data?.message };
     } catch (error: any) {
-      // Handle errors based on the structure of the error object
-      const errorMessage = error.response?.data?.message || "Something went wrong";
+      const errorMessage =
+        error?.response?.data?.message || "Something went wrong";
       return rejectWithValue(errorMessage);
     }
   }

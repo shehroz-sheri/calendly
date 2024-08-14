@@ -20,7 +20,8 @@ const config: Config = {
         light: '#FAFAFA',
         purple: '#8247F5',
         blue: '#4200FF',
-        success: '#008B68'
+        success: '#008B68',
+        lemon: '#EAB308'
       },
     },
   },

@@ -2,7 +2,6 @@ import { GetAvailabilityState } from "@/types/types";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-
 const initialState: GetAvailabilityState = {
   response: {
     availability: null,
@@ -21,13 +20,13 @@ export const fetchAvailability = createAsyncThunk(
       });
 
       return {
-        availability: response.data.availability,
-        status: response.status,
+        availability: response?.data?.availability,
+        status: response?.status,
       };
     } catch (error: any) {
       return rejectWithValue(
-        error.response?.data?.message ||
-          error.message ||
+        error?.response?.data?.message ||
+          error?.message ||
           "Failed to fetch availability"
       );
     }

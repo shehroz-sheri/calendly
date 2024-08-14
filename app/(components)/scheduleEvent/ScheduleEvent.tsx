@@ -6,179 +6,37 @@ import { LuWrench } from "react-icons/lu";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { CiCalendar } from "react-icons/ci";
 import { HiOutlineGlobeAsiaAustralia } from "react-icons/hi2";
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
-import toast from "react-hot-toast";
-import { format, addMinutes, isBefore } from "date-fns";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/redux/store";
-import { EventType } from "@/types/types";
 import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
 import EventHeader from "../eventHeader/EventHeader";
 import EventForm from "../eventForm/EventForm";
 import Calendar from "../calendar/Calendar";
 import CurrentTime from "../currentTime/currentTime";
 import EventSuccess from "../eventSuccess/EventSuccess";
-import { fetchAvailability } from "@/redux/slices/fetchAvailabilitySlice";
+import { useScheduleEvent } from "./useScheduleEvent";
 
 
 const ScheduleEvent: React.FC = () => {
-    const [eventForm, setEventForm] = useState<boolean>(false);
-    const [eventLink, setEventLink] = useState<string | undefined>()
-
-    const [isNotAvailability, setIsNotAvailability] = useState<boolean>(false);
-
-    const [timeFrom, setTimeFrom] = useState<string>("");
-    const [timeTo, setTimeTo] = useState<string>("");
-
-    const [username, setUsername] = useState<string>("");
-
-    const session = useSession();
-
-    const dispatch = useDispatch<AppDispatch>();
-    const { availability, loading, error } = useSelector((state: RootState) => state.fetchAvailability);
-
-    const getAvailability = async () => {
-        const res = await dispatch(fetchAvailability());
-
-        if (fetchAvailability.fulfilled.match(res)) {
-            setTimeFrom(convertTo12HourFormat(res.payload?.timeFrom));
-            setTimeTo(convertTo12HourFormat(res.payload?.timeTo));
-            return
-        }
-        if (fetchAvailability.rejected.match(res)) {
-            setIsNotAvailability(true);
-        }
-    }
-
-    useEffect(() => {
-        if (session.data?.user?.name) {
-            setUsername(session.data?.user?.name);
-        }
-
-        getAvailability();
-    }, [session, dispatch]);
-
-    const convertTo12HourFormat = (hours: string): string => {
-        const hour = parseInt(hours);
-        if (hour === 0) {
-            return `12:00am`;
-        } else if (hour < 12) {
-            return `${hour}:00am`;
-        } else if (hour === 12) {
-            return `12:00pm`;
-        } else {
-            return `${hour - 12}:00pm`;
-        }
-    };
-
-    const parseTime = (timeStr: string): Date => {
-        const [hourStr, minuteStr] = timeStr.split(":");
-        let hour = parseInt(hourStr);
-        const minute = parseInt(minuteStr?.slice(0, 2));
-
-        if (timeStr.toLowerCase().includes("pm") && hour !== 12) {
-            hour += 12;
-        } else if (timeStr.toLowerCase().includes("am") && hour === 12) {
-            hour = 0;
-        }
-
-        const baseDate = new Date("2000-01-01");
-
-        return new Date(baseDate.getFullYear(), baseDate.getMonth(), baseDate.getDate(), hour, minute);
-    };
-
-    const generateTimeSlots = () => {
-        const slots = [];
-        const currentTime = parseTime(timeFrom);
-        const endTime = parseTime(timeTo);
-
-        while (currentTime <= endTime) {
-            slots.push(format(currentTime, 'h:mmaaa'));
-            currentTime.setMinutes(currentTime.getMinutes() + 30);
-        }
-
-        return slots.slice(0, -1);
-    };
-
-    const timeSlots = generateTimeSlots();
-
-    const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
-
-    const handleSlotClick = (slot: string) => {
-        setSelectedSlot(slot);
-    };
-
-    const calculateEndTime = (): string | null => {
-        if (selectedSlot) {
-            const selectedTime = parseTime(selectedSlot);
-            const endTime = addMinutes(selectedTime, 30);
-            return format(endTime, 'h:mmaaa');
-        }
-        return null;
-    };
-    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-
-    const handleDateSelect = (date: Date) => {
-        setSelectedDate(date);
-    };
-
-    const [endingTime, setEndingTime] = useState<string | null>("");
-    const [eventDetails, setEventDetails] = useState<{
-        endTime: string | null;
-        meetingDate: string | null;
-        startTime: string | null;
-        attendeeName: string | undefined | null;
-    } | null>(null);
-
-    const scheduleEventTime = () => {
-        if (!selectedDate) {
-            return toast.error("Please select a date");
-        }
-        if (!selectedSlot) {
-            return toast.error("Please select a time slot.");
-        }
-
-        const selectedDateTime = parseTime(selectedSlot);
-        selectedDateTime.setFullYear(selectedDate.getFullYear());
-        selectedDateTime.setMonth(selectedDate.getMonth());
-        selectedDateTime.setDate(selectedDate.getDate());
-
-        const now = new Date();
-        if (isBefore(selectedDateTime, now)) {
-            return toast.error("Selected time is in the past.");
-        }
-
-        const endTime = calculateEndTime();
-        setEndingTime(endTime);
-
-        setEventForm(true);
-        const meetingDate = formatSelectedDate(selectedDate) + ' ' + selectedDate?.getFullYear()
-
-        setEventDetails({
-            endTime,
-            meetingDate,
-            startTime: selectedSlot,
-            attendeeName: null,
-        });
-
-    };
-
-    const formatSelectedDate = (date: Date | null) => {
-        if (!date) return "";
-        return format(date, "EEEE, MMMM d");
-    };
-
-    const handleEventScheduled = (eventDetail?: EventType) => {
-        if (eventDetails) {
-            setEventLink(eventDetail?.eventId);
-
-            setEventDetails({
-                ...eventDetails,
-                attendeeName: eventDetail?.attendeeName,
-            })
-        }
-    };
+    const {
+        eventForm,
+        setEventForm,
+        loading,
+        session,
+        username,
+        isNotAvailability,
+        timeFrom,
+        timeTo,
+        eventLink,
+        formatSelectedDate,
+        selectedSlot,
+        endingTime,
+        selectedDate,
+        handleEventScheduled,
+        eventDetails,
+        handleDateSelect,
+        handleSlotClick,
+        timeSlots,
+        scheduleEventTime,
+    } = useScheduleEvent();
 
     if (!eventForm) {
         if (loading || !session.data?.user) return <LoadingSpinner />
@@ -262,7 +120,7 @@ const ScheduleEvent: React.FC = () => {
                                                     <div className="w-[90%] md:w-[275px] mt-11 max-sm:mx-auto">
                                                         <p className="text-[14.88px]">{formatSelectedDate(selectedDate)}</p>
                                                         <div className="text-primary text-center pb-3 font-bold text-[14.5px] mt-8 max-sm:grid max-sm:grid-cols-2 max-sm:gap-x-4">
-                                                            {timeSlots.map((time, index) => (
+                                                            {timeSlots?.map((time, index) => (
                                                                 <p
                                                                     key={index}
                                                                     className={`pt-[10px] my-2 cursor-pointer rounded border md:w-[208px] h-[52px] border-primary/50 hover:bg-primary hover:text-white transition duration-200 ${selectedSlot === time ? 'bg-primary text-white' : ''}`}

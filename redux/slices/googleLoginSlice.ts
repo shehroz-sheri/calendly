@@ -3,7 +3,6 @@ import { signIn } from "next-auth/react";
 import { RootState } from "../store";
 import { GoogleLoginState } from "@/types/types";
 
-
 const initialState: GoogleLoginState = {
   loading: false,
   error: null,
@@ -25,7 +24,7 @@ export const googleLogin = createAsyncThunk(
         throw new Error((result && result.error) || "Login failed");
       }
     } catch (error: any) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error?.message);
     }
   }
 );

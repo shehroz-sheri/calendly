@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { signupUser } from "@/redux/slices/signupSlice";
 import { AppDispatch, RootState } from "@/redux/store";
 import { SignupUser } from "@/types/types";
+import Swal from "sweetalert2";
 
 export const useSignupForm = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -54,7 +55,7 @@ export const useSignupForm = () => {
     dispatch(signupUser(user))
       .unwrap()
       .then((data) => {
-        if (data.status === 201) {
+        if (data?.status === 201) {
           toast.success(
             "Verification email sent successfully. Please check your inbox."
           );
@@ -62,6 +63,14 @@ export const useSignupForm = () => {
         }
       })
       .catch((err) => {
+        if (err == "Error sending email") {
+          Swal.fire({
+            icon: "warning",
+            title: "User registered but error sending email",
+            text: "User has been registered successfully but verification email could not be sent. Please try to login for your email verification later in 24 to 48 hours.",
+          });
+          return;
+        }
         toast.error(err);
       });
   };

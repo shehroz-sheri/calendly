@@ -3,7 +3,6 @@ import { RootState } from "../store";
 import axios from "axios";
 import { ForgotPasswordState } from "@/types/types";
 
-
 const initialState: ForgotPasswordState = {
   loading: false,
   error: null,
@@ -15,10 +14,12 @@ export const forgotPassword = createAsyncThunk(
     try {
       const response = await axios.post("/api/forgot-password", { email });
 
-      return response.data;
+      return response?.data;
     } catch (error: any) {
       return rejectWithValue(
-        error.response?.data?.message || error.message || "Something went wrong"
+        error?.response?.data?.message ||
+          error?.message ||
+          "Something went wrong"
       );
     }
   }

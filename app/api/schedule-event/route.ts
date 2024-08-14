@@ -1,9 +1,10 @@
 import { prisma } from "@/config/prisma";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import path from "path";
 import fs from "fs";
 import { googleMeet } from "@/libs/googleMeet";
+import { auth } from "@/auth";
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -13,8 +14,10 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export const POST = async (req: NextRequest) => {
-  const { user, eventDetails, refreshToken } = await req.json();
+export const POST = auth(async function POST(req) {
+  const { eventDetails } = await req.json();
+  const refreshToken = req.auth?.refreshToken;
+  const user = req.auth?.user;
 
   const sendEmail = async (
     to: string,
@@ -23,7 +26,7 @@ export const POST = async (req: NextRequest) => {
     html: string
   ) => {
     const mailOptions = {
-      from: user.email,
+      from: user?.email,
       to,
       subject,
       text,
@@ -35,13 +38,24 @@ export const POST = async (req: NextRequest) => {
     } catch (error) {}
   };
 
-  if (user) {
+  if (user && refreshToken) {
     try {
+      const userData = await prisma.user.findUnique({
+        where: {
+          email: user?.email,
+        },
+      });
+      if (!userData) {
+        return NextResponse.json(
+          { message: "User not found" },
+          { status: 404 }
+        );
+      }
       const existingEvent = await prisma.event.findUnique({
         where: {
           hostId_attendeeEmail: {
-            hostId: user.id,
-            attendeeEmail: eventDetails.attendeeDetails.attendeeEmail,
+            hostId: userData?.id,
+            attendeeEmail: eventDetails?.attendeeDetails?.attendeeEmail,
           },
         },
       });
@@ -55,15 +69,15 @@ export const POST = async (req: NextRequest) => {
 
       const conflictingEvent = await prisma.event.findFirst({
         where: {
-          hostId: user.id,
-          meetingDate: eventDetails.meetingDetails.meetingDate,
+          hostId: userData?.id,
+          meetingDate: eventDetails?.meetingDetails?.meetingDate,
           OR: [
             {
               meetingStartTime: {
-                lte: eventDetails.meetingDetails.endTime,
+                lte: eventDetails?.meetingDetails?.endTime,
               },
               meetingEndTime: {
-                gte: eventDetails.meetingDetails.startTime,
+                gte: eventDetails?.meetingDetails?.startTime,
               },
             },
           ],
@@ -84,13 +98,13 @@ export const POST = async (req: NextRequest) => {
 
       const newEvent = await prisma.event.create({
         data: {
-          hostId: user.id,
-          attendeeName: eventDetails.attendeeDetails.attendeeName,
-          attendeeEmail: eventDetails.attendeeDetails.attendeeEmail,
-          messageForAttendee: eventDetails.attendeeDetails.messageForAttendee,
-          meetingDate: eventDetails.meetingDetails.meetingDate,
-          meetingStartTime: eventDetails.meetingDetails.startTime,
-          meetingEndTime: eventDetails.meetingDetails.endTime,
+          hostId: userData?.id,
+          attendeeName: eventDetails?.attendeeDetails?.attendeeName,
+          attendeeEmail: eventDetails?.attendeeDetails?.attendeeEmail,
+          messageForAttendee: eventDetails?.attendeeDetails?.messageForAttendee,
+          meetingDate: eventDetails?.meetingDetails?.meetingDate,
+          meetingStartTime: eventDetails?.meetingDetails?.startTime,
+          meetingEndTime: eventDetails?.meetingDetails?.endTime,
           googleMeetUrl,
         },
       });
@@ -101,20 +115,20 @@ export const POST = async (req: NextRequest) => {
         "hostEmail",
         "HostEmail.html"
       );
-      const eventMessage = eventDetails.attendeeDetails.messageForAttendee;
+      const eventMessage = eventDetails?.attendeeDetails?.messageForAttendee;
       let hostEmailHtml = fs.readFileSync(hostEmailTemplatePath, "utf8");
       hostEmailHtml = hostEmailHtml.replace("{{hostName}}", user.name);
       hostEmailHtml = hostEmailHtml.replace(
         "{{inviteeName}}",
-        eventDetails.attendeeDetails.attendeeName
+        eventDetails?.attendeeDetails?.attendeeName
       );
       hostEmailHtml = hostEmailHtml.replace(
         "{{inviteeEmail}}",
-        eventDetails.attendeeDetails.attendeeEmail
+        eventDetails?.attendeeDetails?.attendeeEmail
       );
       hostEmailHtml = hostEmailHtml.replace(
         "{{eventDateTime}}",
-        `${eventDetails.meetingDetails.startTime} - ${eventDetails.meetingDetails.meetingDate} (Pakistan Standard Time)`
+        `${eventDetails?.meetingDetails?.startTime} - ${eventDetails?.meetingDetails?.meetingDate} (Pakistan Standard Time)`
       );
       hostEmailHtml = hostEmailHtml.replace(
         "{{timeZone}}",
@@ -132,7 +146,7 @@ export const POST = async (req: NextRequest) => {
         );
       }
 
-      const eventLink = `<a target="_blank" href="${process.env.NEXT_PUBLIC_APP_URL}/appointment/${newEvent.id}">View Event in Calendly</a>`;
+      const eventLink = `<a target="_blank" href="${process.env.NEXT_PUBLIC_APP_URL}/appointment/${newEvent?.id}">View Event in Calendly</a>`;
       hostEmailHtml = hostEmailHtml.replace("{{eventLink}}", eventLink);
 
       const inviteeEmailTemplatePath = path.join(
@@ -144,12 +158,12 @@ export const POST = async (req: NextRequest) => {
       let inviteeEmailHtml = fs.readFileSync(inviteeEmailTemplatePath, "utf8");
       inviteeEmailHtml = inviteeEmailHtml.replace(
         "{{inviteeName}}",
-        eventDetails.attendeeDetails.attendeeName
+        eventDetails?.attendeeDetails?.attendeeName
       );
       inviteeEmailHtml = inviteeEmailHtml.replace("{{hostName}}", user.name);
       inviteeEmailHtml = inviteeEmailHtml.replace(
         "{{eventStartTime}}",
-        eventDetails.meetingDetails.startTime
+        eventDetails?.meetingDetails?.startTime
       );
       inviteeEmailHtml = inviteeEmailHtml.replace(
         "{{timeZone}}",
@@ -157,7 +171,7 @@ export const POST = async (req: NextRequest) => {
       );
       inviteeEmailHtml = inviteeEmailHtml.replace(
         "{{eventDate}}",
-        eventDetails.meetingDetails.meetingDate
+        eventDetails?.meetingDetails?.meetingDate
       );
       inviteeEmailHtml = inviteeEmailHtml.replace(
         "{{eventMessage}}",
@@ -176,20 +190,20 @@ export const POST = async (req: NextRequest) => {
       }
 
       const hostEmailText = `Your event has been scheduled successfully. Details: ${JSON.stringify(
-        eventDetails.meetingDetails
+        eventDetails?.meetingDetails
       )} Google Meet URL: `;
       const inviteeEmailText = `You have been invited to an event. Details: ${JSON.stringify(
-        eventDetails.meetingDetails
+        eventDetails?.meetingDetails
       )} Google Meet URL: `;
 
       await sendEmail(
-        user.email,
+        user?.email,
         "Event Scheduled Successfully",
         hostEmailText,
         hostEmailHtml
       );
       await sendEmail(
-        eventDetails.attendeeDetails.attendeeEmail,
+        eventDetails?.attendeeDetails?.attendeeEmail,
         "You have been invited to an event",
         inviteeEmailText,
         inviteeEmailHtml
@@ -199,8 +213,8 @@ export const POST = async (req: NextRequest) => {
         {
           message: "Event created successfully.",
           eventDetails: {
-            eventId: newEvent.id,
-            attendeeName: eventDetails.attendeeDetails.attendeeName,
+            eventId: newEvent?.id,
+            attendeeName: eventDetails?.attendeeDetails?.attendeeName,
           },
         },
         { status: 201 }
@@ -217,4 +231,4 @@ export const POST = async (req: NextRequest) => {
       { status: 401 }
     );
   }
-};
+});

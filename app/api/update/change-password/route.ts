@@ -1,12 +1,14 @@
 import { prisma } from "@/config/prisma";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { verifyUser } from "@/libs/verifyUser";
+import { auth } from "@/auth";
 
-export const POST = async (req: NextRequest) => {
+export const POST = auth(async function POST(req) {
+  const email = req.auth?.user?.email;
   const body = await req.json();
 
-  const { email, oldPassword, newPassword } = body;
+  const { oldPassword, newPassword } = body;
 
   const user = await verifyUser(email, oldPassword);
 
@@ -34,4 +36,4 @@ export const POST = async (req: NextRequest) => {
       { status: 401 }
     );
   }
-};
+});

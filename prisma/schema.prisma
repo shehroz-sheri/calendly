@@ -14,7 +14,7 @@ model User {
   name                     String
   username                 String?
   image                    String?
-  googleId                 String?           
+  googleId                 String?
   refreshToken             String?
   accessToken              String?
   resetToken               String?
@@ -47,7 +47,7 @@ model Event {
   meetingEndTime     String
   googleMeetUrl      String?
   visitCount         Int      @default(0)
-  visitRecords       String[] @default([]) 
+  visitRecords       String[] @default([])
 
   @@unique([hostId, attendeeEmail])
 }

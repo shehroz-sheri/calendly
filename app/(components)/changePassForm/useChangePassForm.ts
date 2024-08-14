@@ -30,7 +30,7 @@ export const useChangePassForm = () => {
       ).unwrap();
       setCurrentPassword("");
       setNewPassword("");
-      toast.success(res.message || "Password updated successfully!");
+      toast.success(res?.message || "Password updated successfully!");
     } catch (error) {
       toast.error((error as string) || "Something went wrong! Try again!");
     }

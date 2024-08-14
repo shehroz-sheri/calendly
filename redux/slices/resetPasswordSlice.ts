@@ -1,8 +1,7 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { RootState } from '../store';
-import axios from 'axios';
-import { ResetPasswordState } from '@/types/types';
-
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { RootState } from "../store";
+import axios from "axios";
+import { ResetPasswordState } from "@/types/types";
 
 const initialState: ResetPasswordState = {
   loading: false,
@@ -10,31 +9,37 @@ const initialState: ResetPasswordState = {
 };
 
 export const resetPassword = createAsyncThunk(
-  'resetPassword/resetPassword',
+  "resetPassword/resetPassword",
   async (
-    { token, email, newPassword }: { token: string | null; email: string | null; newPassword: string },
+    {
+      token,
+      email,
+      newPassword,
+    }: { token: string | null; email: string | null; newPassword: string },
     { rejectWithValue }
   ) => {
     try {
-      const response = await axios.post('/api/reset-password', {
+      const response = await axios.post("/api/reset-password", {
         token,
         email,
         newPassword,
       });
 
       if (response.status !== 200) {
-        return rejectWithValue(response.data.message || 'Something went wrong');
+        return rejectWithValue(
+          response?.data?.message || "Something went wrong"
+        );
       }
 
-      return response.data;
+      return response?.data;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || error.message);
+      return rejectWithValue(error?.response?.data?.message || error?.message);
     }
   }
 );
 
 const resetPasswordSlice = createSlice({
-  name: 'resetPassword',
+  name: "resetPassword",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -53,7 +58,9 @@ const resetPasswordSlice = createSlice({
   },
 });
 
-export const selectResetPasswordLoading = (state: RootState) => state.resetPassword.loading;
-export const selectResetPasswordError = (state: RootState) => state.resetPassword.error;
+export const selectResetPasswordLoading = (state: RootState) =>
+  state.resetPassword.loading;
+export const selectResetPasswordError = (state: RootState) =>
+  state.resetPassword.error;
 
 export default resetPasswordSlice.reducer;

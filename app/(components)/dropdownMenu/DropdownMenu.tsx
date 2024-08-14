@@ -7,7 +7,6 @@ import { useDropdownMenu } from "./useDropdownMenu";
 const DropdownMenu = () => {
     const { isOpen, toggleDropdown } = useDropdownMenu();
 
-
     return (
         <div className="relative">
             <div

@@ -3,7 +3,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { signIn } from "next-auth/react";
 
-
 const initialState: LoginState = {
   loading: false,
   error: null,
@@ -16,9 +15,13 @@ export const userVerification = createAsyncThunk(
     try {
       const response = await axios.post("/api/user-verification", user);
 
-      return { data: response.data.message, status: response.status };
+      return { data: response?.data?.message, status: response?.status };
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || error.message || "Something went wrong. Please try again!");
+      return rejectWithValue(
+        error?.response?.data?.message ||
+          error?.message ||
+          "Something went wrong. Please try again!"
+      );
     }
   }
 );
@@ -31,9 +34,9 @@ export const loginUser = createAsyncThunk(
   ) => {
     try {
       const result = await signIn("credentials", {
-        email: user.email,
-        password: user.password,
-        callbackUrl: user.availability
+        email: user?.email,
+        password: user?.password,
+        callbackUrl: user?.availability
           ? "/dashboard/availability?login-status=true"
           : "/dashboard",
         redirect: false,
@@ -42,10 +45,10 @@ export const loginUser = createAsyncThunk(
       if (result?.ok && result?.url && !result.error) {
         return result.url;
       } else {
-        throw new Error(result && result.error || "Login failed");
+        throw new Error((result && result?.error) || "Login failed");
       }
     } catch (error: any) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error?.message);
     }
   }
 );

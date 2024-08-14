@@ -1,5 +1,5 @@
 import { NextAuthConfig } from "next-auth";
-import { prisma } from "./prisma";
+import { NextResponse } from "next/server";
 
 export const authConfig = {
   pages: {
@@ -14,11 +14,11 @@ export const authConfig = {
   callbacks: {
     async jwt({ token, account, user }) {
       if (user) {
-        token.id = user.id;
+        token.id = user?.id;
       }
       if (account) {
-        token.accessToken = account.access_token;
-        token.refreshToken = account.refresh_token;
+        token.accessToken = account?.access_token;
+        token.refreshToken = account?.refresh_token;
       }
 
       return token;
@@ -26,27 +26,53 @@ export const authConfig = {
 
     async session({ session, token }) {
       if (token?.id && token?.email) {
-        const user = await prisma.user.findUnique({
-          where: {
-            email: token?.email,
-          },
-        });
-
-        if (user) {
-          session.user = {
-            id: user.id,
-            email: user.email,
-            name: user.name,
-            image: user?.image,
-            isVerified: user?.isVerified,
-            googleId: user?.googleId,
-          };
-        }
+        session.user = {
+          id: token?.id,
+          email: token?.email,
+          name: token?.name,
+          image: token?.image,
+          isVerified: token?.isVerified,
+          googleId: token?.googleId,
+        };
       }
-      session.accessToken = token.accessToken as string | undefined;
-      session.refreshToken = token.refreshToken as string | undefined;
+
+      session.accessToken = token?.accessToken as string | undefined;
+      session.refreshToken = token?.refreshToken as string | undefined;
 
       return session;
+    },
+    authorized: async ({ auth, request }) => {
+      const { pathname } = new URL(request.url);
+
+      if (pathname === "/") {
+        return NextResponse.redirect(new URL("/dashboard", request.url));
+      }
+
+      if (pathname === "/profile") {
+        return NextResponse.redirect(
+          new URL("/profile/edit-profile", request.url)
+        );
+      }
+
+      const publicRoutes = [
+        "/auth/login",
+        "/auth/signup",
+        "/auth/forgot-password",
+        "/auth/reset-password",
+      ];
+      const isPublicRoute =
+        publicRoutes.includes(pathname) ||
+        /^\/appointment(\/.*)?$/.test(pathname);
+
+      if (!auth && !isPublicRoute) {
+        return NextResponse.redirect(new URL("/auth/login", request.url));
+      }
+
+      if (auth && isPublicRoute) {
+        return NextResponse.redirect(new URL("/dashboard", request.url));
+      }
+
+      return true;
     },
   },
   providers: [],

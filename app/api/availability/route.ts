@@ -1,19 +1,25 @@
+import { auth } from "@/auth";
 import { prisma } from "@/config/prisma";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export const POST = async (req: NextRequest) => {
+export const POST = auth(async function POST(req) {
+  const userEmail = req.auth?.user?.email;
+
+  if (!userEmail)
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+
   try {
-    const { email, availability } = await req.json();
+    const { availability } = await req.json();
 
-    if (!email || !availability)
+    if (!availability)
       return NextResponse.json({ message: "Invalid request" }, { status: 400 });
 
-    let timeFrom = String(availability.fromHours);
-    let timeTo = String(availability.toHours);
+    let timeFrom = String(availability?.fromHours);
+    let timeTo = String(availability?.toHours);
 
     const user = await prisma.user.findUnique({
       where: {
-        email,
+        email: userEmail,
       },
     });
 
@@ -23,7 +29,7 @@ export const POST = async (req: NextRequest) => {
 
     const existingAvailability = await prisma.userAvailability.findUnique({
       where: {
-        id: user.id,
+        id: user?.id,
       },
     });
 
@@ -32,10 +38,10 @@ export const POST = async (req: NextRequest) => {
     if (existingAvailability) {
       createdAvailability = await prisma.userAvailability.update({
         where: {
-          id: existingAvailability.id,
+          id: existingAvailability?.id,
         },
         data: {
-          days: availability.selectedDays,
+          days: availability?.selectedDays,
           timeFrom: timeFrom,
           timeTo: timeTo,
         },
@@ -43,12 +49,12 @@ export const POST = async (req: NextRequest) => {
     } else {
       createdAvailability = await prisma.userAvailability.create({
         data: {
-          days: availability.selectedDays,
+          days: availability?.selectedDays,
           timeFrom: timeFrom,
           timeTo: timeTo,
           user: {
             connect: {
-              id: user.id,
+              id: user?.id,
             },
           },
         },
@@ -62,4 +68,4 @@ export const POST = async (req: NextRequest) => {
       { status: 500 }
     );
   }
-};
+});

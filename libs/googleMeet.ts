@@ -30,18 +30,19 @@ export const googleMeet = async (
     const calendar = google.calendar({ version: "v3", auth: oauth2Client });
 
     const startDateTime = parseDateTime(
-      eventDetails.meetingDetails.meetingDate,
-      eventDetails.meetingDetails.startTime,
+      eventDetails?.meetingDetails?.meetingDate,
+      eventDetails?.meetingDetails?.startTime,
       "Asia/Karachi"
     );
     const endDateTime = parseDateTime(
-      eventDetails.meetingDetails.meetingDate,
-      eventDetails.meetingDetails.endTime,
+      eventDetails?.meetingDetails?.meetingDate,
+      eventDetails?.meetingDetails?.endTime,
       "Asia/Karachi"
     );
 
     const event = {
-      summary: "Appointment with " + eventDetails.attendeeDetails.attendeeName,
+      summary:
+        "Appointment with " + eventDetails?.attendeeDetails?.attendeeName,
       location: "Online Meeting",
       description: "30 Minutes Meeting",
       start: {
@@ -69,7 +70,7 @@ export const googleMeet = async (
       conferenceDataVersion: 1,
     });
 
-    const googleMeetUrl = res.data.hangoutLink;
+    const googleMeetUrl = res?.data?.hangoutLink;
 
     return googleMeetUrl;
   } catch (error) {

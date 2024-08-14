@@ -10,7 +10,7 @@ const useProfileSidebar = () => {
   };
 
   const handleLogout = () => {
-    signOut({ callbackUrl: '/auth/login' });
+    signOut({ callbackUrl: "/auth/login" });
   };
 
   return {

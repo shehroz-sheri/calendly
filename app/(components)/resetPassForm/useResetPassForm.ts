@@ -53,7 +53,7 @@ export const useResetPassForm = () => {
       } else if (resetPassword.rejected.match(resultAction)) {
         toast.error(error || "Something went wrong. Please try again.");
       }
-    } catch (error) {
+    } catch (err) {
       toast.error("Something went wrong. Please try again.");
     }
   };

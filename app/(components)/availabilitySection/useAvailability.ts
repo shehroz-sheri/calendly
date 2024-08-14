@@ -23,8 +23,10 @@ export const useAvailability = () => {
   });
 
   const dispatch = useDispatch<AppDispatch>();
-  const loading = useSelector((state: RootState) => state.availability.loading);
-  const error = useSelector((state: RootState) => state.availability.error);
+  const loading = useSelector(
+    (state: RootState) => state?.availability?.loading
+  );
+  const error = useSelector((state: RootState) => state?.availability?.error);
 
   const handleTimeFromChange = (
     event: React.ChangeEvent<HTMLSelectElement>

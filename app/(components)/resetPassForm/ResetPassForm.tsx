@@ -1,8 +1,8 @@
 'use client';
 
-import PasswordField from "../passwordField/PasswordField";
 import Link from "next/link";
 import { useResetPassForm } from "./useResetPassForm";
+import FormInputField from "../formInputField/FormInputField";
 
 const ResetPassForm: React.FC = () => {
     const {
@@ -21,25 +21,31 @@ const ResetPassForm: React.FC = () => {
                 <form onSubmit={handleResetPassword}>
                     <div className="px-3 sm:px-[33px]">
                         <div className="h-[76px] sm:w-[374px] flex flex-col justify-evenly">
-                            <PasswordField
+                            <FormInputField
                                 id="newPassword"
                                 name="newPassword"
                                 label="Enter new password"
+                                type="password"
+                                placeholder="Enter new password"
                                 value={newPassword}
                                 showPassword={showPassword}
                                 togglePasswordVisibility={togglePasswordVisibility}
                                 onChange={handleChange}
+                                className="border-[1.5px] text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                             />
                         </div>
                         <div className="h-[76px] sm:w-[374px] flex flex-col justify-evenly">
-                            <PasswordField
+                            <FormInputField
                                 id="confirmPassword"
                                 name="confirmPassword"
                                 label="Confirm new password"
+                                type="password"
+                                placeholder="Confirm new password"
                                 value={confirmPassword}
                                 showPassword={showPassword}
                                 togglePasswordVisibility={togglePasswordVisibility}
                                 onChange={handleChange}
+                                className="border-[1.5px] text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                             />
                         </div>
                     </div>

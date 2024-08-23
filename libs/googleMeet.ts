@@ -1,5 +1,6 @@
 import { google } from "googleapis";
 import { parseDateTime } from "@/utils/parseMeetTime";
+import { MeetEventDetails } from "@/types/types";
 
 const oauth2Client = new google.auth.OAuth2(
   process.env.AUTH_GOOGLE_ID,
@@ -7,19 +8,8 @@ const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_REDIRECT_URI
 );
 
-interface EventDetails {
-  meetingDetails: {
-    meetingDate: string;
-    startTime: string;
-    endTime: string;
-  };
-  attendeeDetails: {
-    attendeeName: string;
-  };
-}
-
 export const googleMeet = async (
-  eventDetails: EventDetails,
+  eventDetails: MeetEventDetails,
   refreshToken: string
 ) => {
   try {

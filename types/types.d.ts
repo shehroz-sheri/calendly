@@ -23,6 +23,17 @@ export type AppointmentDetails = {
   googleMeetUrl?: string;
 };
 
+export type MeetEventDetails = {
+  meetingDetails: {
+    meetingDate: string;
+    startTime: string;
+    endTime: string;
+  };
+  attendeeDetails: {
+    attendeeName: string;
+  };
+};
+
 type AppointmentDetailItemProps = {
   icon: ReactNode;
   title: string;

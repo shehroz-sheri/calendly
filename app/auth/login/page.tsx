@@ -4,18 +4,20 @@ import { FaSpinner } from "react-icons/fa";
 import { Suspense } from "react";
 
 export const metadata = {
-  title: 'Login - Calendly',
-  description: 'Log in to your Calendly account to manage your appointments and schedule meetings with ease.',
+  title: "Login - Calendly",
+  description:
+    "Log in to your Calendly account to manage your appointments and schedule meetings with ease.",
   openGraph: {
-    title: 'Login - Calendly',
-    description: 'Log in to your Calendly account to manage your appointments and schedule meetings with ease.',
-    url: 'https://calendly-by-shehroz.vercel.app/auth/login',
+    title: "Login - Calendly",
+    description:
+      "Log in to your Calendly account to manage your appointments and schedule meetings with ease.",
+    url: "https://calendly-by-shehroz.vercel.app/auth/login",
     images: [
       {
-        url: 'https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_9b95c3b92b1ef692b5f69baaec6579d5/calendly.png',
+        url: "https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_9b95c3b92b1ef692b5f69baaec6579d5/calendly.png",
         width: 1200,
         height: 630,
-        alt: 'Login to Calendly',
+        alt: "Login to Calendly",
       },
     ],
   },

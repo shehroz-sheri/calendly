@@ -34,6 +34,40 @@ export type MeetEventDetails = {
   };
 };
 
+export type AccDropdownProps = {
+  id: string;
+  options: { value: string; label: string }[];
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  label?: string;
+  info?: string;
+  className?: string;
+};
+
+export type AccTextInputProps = {
+  id: string;
+  name: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  label: string;
+  placeholder: string;
+  info?: string;
+};
+
+export type SignupFormField = {
+  id: string;
+  name: string;
+  type: string;
+  value: string | undefined;
+  placeholder: string;
+  required: boolean;
+  label: string;
+  minLength?: number;
+  maxLength?: number;
+  showPassword?: boolean;
+  togglePasswordVisibility?: () => void;
+};
+
 type AppointmentDetailItemProps = {
   icon: ReactNode;
   title: string;

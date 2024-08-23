@@ -6,23 +6,24 @@ import { Suspense } from "react";
 import { HiOutlineUserAdd } from "react-icons/hi";
 
 export const metadata = {
-  title: 'User Profile - Calendly',
-  description: 'View and update your personal information, profile settings, and preferences on your Calendly profile.',
+  title: "User Profile - Calendly",
+  description:
+    "View and update your personal information, profile settings, and preferences on your Calendly profile.",
   openGraph: {
-    title: 'User Profile - Calendly',
-    description: 'View and update your personal information, profile settings, and preferences on your Calendly profile.',
-    url: 'https://calendly-by-shehroz.vercel.app/profile',
+    title: "User Profile - Calendly",
+    description:
+      "View and update your personal information, profile settings, and preferences on your Calendly profile.",
+    url: "https://calendly-by-shehroz.vercel.app/profile",
     images: [
       {
-        url: 'https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_9b95c3b92b1ef692b5f69baaec6579d5/calendly.png',
+        url: "https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_9b95c3b92b1ef692b5f69baaec6579d5/calendly.png",
         width: 1200,
         height: 630,
-        alt: 'User Profile - Calendly',
+        alt: "User Profile - Calendly",
       },
     ],
   },
 };
-
 
 const EditProfile: React.FC = () => {
   return (

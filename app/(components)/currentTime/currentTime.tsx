@@ -1,15 +1,11 @@
-'use client';
+"use client";
 
-import { useCurrentTime } from './useCurrentTime';
+import { useCurrentTime } from "./useCurrentTime";
 
 const CurrentTime: React.FC = () => {
-    const time = useCurrentTime();
+  const time = useCurrentTime();
 
-    return (
-        <>
-            ({time})
-        </>
-    );
+  return <>({time})</>;
 };
 
 export default CurrentTime;

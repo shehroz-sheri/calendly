@@ -38,7 +38,7 @@ export const POST = auth(async function POST(req) {
     } catch (error) {}
   };
 
-  if (user && refreshToken) {
+  if (user) {
     try {
       const userData = await prisma.user.findUnique({
         where: {
@@ -94,7 +94,10 @@ export const POST = auth(async function POST(req) {
         );
       }
 
-      const googleMeetUrl = await googleMeet(eventDetails, refreshToken);
+      const googleMeetUrl = await googleMeet(
+        eventDetails,
+        refreshToken ? refreshToken : ""
+      );
 
       const newEvent = await prisma.event.create({
         data: {

@@ -15,7 +15,9 @@ import useSidebar from "./useSidebar";
 import { SidebarProps } from "@/types/types";
 
 const Sidebar: React.FC<SidebarProps> = (props) => {
-  const { collapsed, isOpen, toggleSidebar, handleCollapseToggle } = useSidebar(props?.isCollapsed);
+  const { collapsed, isOpen, toggleSidebar, handleCollapseToggle } = useSidebar(
+    props?.isCollapsed
+  );
 
   return (
     <div className="lg:flex lg:flex-col lg:h-screen">
@@ -27,15 +29,18 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
       </button>
 
       <div
-        className={`fixed inset-0 z-40 opacity-50 transition-opacity duration-300 ${isOpen ? "block" : "hidden"
-          } lg:hidden`}
+        className={`fixed inset-0 z-40 opacity-50 transition-opacity duration-300 ${
+          isOpen ? "block" : "hidden"
+        } lg:hidden`}
         onClick={toggleSidebar}
       ></div>
 
       <div
-        className={`fixed lg:static inset-y-0 left-0 z-50 transform bg-white ${isOpen ? "translate-x-0" : "-translate-x-full"
-          } lg:translate-x-0 transition-transform duration-300 ease-in-out flex flex-col min-h-screen ${collapsed ? "w-16" : "w-60"
-          }`}
+        className={`fixed lg:static inset-y-0 left-0 z-50 transform bg-white ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        } lg:translate-x-0 transition-transform duration-300 ease-in-out flex flex-col min-h-screen ${
+          collapsed ? "w-16" : "w-60"
+        }`}
       >
         <div className="flex items-center justify-between p-4">
           <Link href="/dashboard" className="w-full mt-1">
@@ -62,7 +67,10 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
           <ul className="flex flex-col space-y-2 p-4">
             <li>
               <span className={`${collapsed ? "hidden" : "block"}`}>
-                <Link href={'/create-event'} className="inline-block text-center bg-primary rounded-[40px] py-2 hover:bg-primary/80 font-bold text-[14.75px] text-white w-full mb-3">
+                <Link
+                  href={"/create-event"}
+                  className="inline-block text-center bg-primary rounded-[40px] py-2 hover:bg-primary/80 font-bold text-[14.75px] text-white w-full mb-3"
+                >
                   + Create
                 </Link>
               </span>
@@ -72,8 +80,9 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                 <p className="flex items-center space-x-3 p-2 rounded hover:bg-gray-200">
                   <MdOutlineCalendarMonth />
                   <span
-                    className={`${collapsed ? "hidden" : "block"
-                      } font-bold text-[14.63px]`}
+                    className={`${
+                      collapsed ? "hidden" : "block"
+                    } font-bold text-[14.63px]`}
                   >
                     Scheduled events
                   </span>
@@ -85,8 +94,9 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                 <p className="flex items-center space-x-3 p-2 rounded hover:bg-gray-200">
                   <MdOutlineAnalytics />
                   <span
-                    className={`${collapsed ? "hidden" : "block"
-                      } font-bold text-[14.63px]`}
+                    className={`${
+                      collapsed ? "hidden" : "block"
+                    } font-bold text-[14.63px]`}
                   >
                     Analytics
                   </span>
@@ -101,8 +111,9 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
             <p className="flex items-center space-x-3 p-2 rounded hover:bg-gray-200">
               <GoClock />
               <span
-                className={`${collapsed ? "hidden" : "block"
-                  } font-bold text-[14.63px]`}
+                className={`${
+                  collapsed ? "hidden" : "block"
+                } font-bold text-[14.63px]`}
               >
                 Availability
               </span>
@@ -112,8 +123,9 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
             <p className="flex items-center space-x-3 p-2 rounded hover:bg-gray-200">
               <RiVipCrown2Line />
               <span
-                className={`${collapsed ? "hidden" : "block"
-                  } font-bold text-[14.63px]`}
+                className={`${
+                  collapsed ? "hidden" : "block"
+                } font-bold text-[14.63px]`}
               >
                 Admin center
               </span>

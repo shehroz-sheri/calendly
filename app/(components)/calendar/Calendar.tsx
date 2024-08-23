@@ -1,35 +1,76 @@
-'use client';
+"use client";
 
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
-import { addMonths, subMonths, format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay, getDay, isBefore } from 'date-fns';
+import {
+  addMonths,
+  subMonths,
+  format,
+  startOfMonth,
+  endOfMonth,
+  startOfWeek,
+  endOfWeek,
+  addDays,
+  isSameMonth,
+  isSameDay,
+  getDay,
+  isBefore,
+} from "date-fns";
 import { CalendarProps } from "@/types/types";
 import { useCalendar } from "./useCalendar";
 import { dayNames, dayNamesToIndices } from "@/constants/Constants";
 
-
 const Calendar: React.FC<CalendarProps> = ({ onDateSelect }) => {
-  const { availableDays, currentMonth, selectedDate, setCurrentMonth, setSelectedDate } = useCalendar();
+  const {
+    availableDays,
+    currentMonth,
+    selectedDate,
+    setCurrentMonth,
+    setSelectedDate,
+  } = useCalendar();
 
   const handleDateClick = (date: Date) => {
     const dayIndex = getDay(date);
-    const isAvailableDay = availableDays?.some(d => dayNamesToIndices[d?.toLowerCase()] === dayIndex);
+    const isAvailableDay = availableDays?.some(
+      (d) => dayNamesToIndices[d?.toLowerCase()] === dayIndex
+    );
 
-    if ((!isBefore(date, new Date()) || isSameDay(date, new Date())) && isAvailableDay) {
+    if (
+      (!isBefore(date, new Date()) || isSameDay(date, new Date())) &&
+      isAvailableDay
+    ) {
       setSelectedDate(date);
       onDateSelect(date);
     }
   };
 
   const renderHeader = () => {
-    const isPrevDisabled = isSameMonth(currentMonth, new Date()) || currentMonth < new Date();
+    const isPrevDisabled =
+      isSameMonth(currentMonth, new Date()) || currentMonth < new Date();
 
     return (
       <div className="flex justify-between items-center mb-4 w-2/3 mx-auto">
-        <button onClick={prevMonth} disabled={isPrevDisabled} className={`w-[38px] h-[38px] ${isPrevDisabled ? "opacity-50 cursor-not-allowed" : "bg-primary/10 rounded-full"}`}>
-          <MdKeyboardArrowLeft className={`${isPrevDisabled ? '' : 'text-primary'} mx-auto`} />
+        <button
+          onClick={prevMonth}
+          disabled={isPrevDisabled}
+          className={`w-[38px] h-[38px] ${
+            isPrevDisabled
+              ? "opacity-50 cursor-not-allowed"
+              : "bg-primary/10 rounded-full"
+          }`}
+        >
+          <MdKeyboardArrowLeft
+            className={`${isPrevDisabled ? "" : "text-primary"} mx-auto`}
+          />
         </button>
-        <span className="text-[14.88px]">{format(currentMonth, 'MMMM yyyy')}</span>
-        <button className="bg-primary/10 rounded-full w-[38px] h-[38px]" onClick={nextMonth}><MdKeyboardArrowRight className="text-primary mx-auto" /></button>
+        <span className="text-[14.88px]">
+          {format(currentMonth, "MMMM yyyy")}
+        </span>
+        <button
+          className="bg-primary/10 rounded-full w-[38px] h-[38px]"
+          onClick={nextMonth}
+        >
+          <MdKeyboardArrowRight className="text-primary mx-auto" />
+        </button>
       </div>
     );
   };
@@ -63,19 +104,27 @@ const Calendar: React.FC<CalendarProps> = ({ onDateSelect }) => {
         formattedDate = format(day, "d");
         const cloneDay = day;
         const dayIndex = getDay(day);
-        const isAvailableDay = availableDays?.some(d => dayNamesToIndices[d?.toLowerCase()] === dayIndex);
+        const isAvailableDay = availableDays?.some(
+          (d) => dayNamesToIndices[d?.toLowerCase()] === dayIndex
+        );
 
         days.push(
-          <td key={day.toString()} className="text-center py-2" onClick={() => handleDateClick(cloneDay)}>
+          <td
+            key={day.toString()}
+            className="text-center py-2"
+            onClick={() => handleDateClick(cloneDay)}
+          >
             <span
-              className={`flex items-center justify-center w-[38px] pt-1 pb-2.5 cursor-pointer ${!isSameMonth(day, monthStart)
-                ? "invisible"
-                : selectedDate && isSameDay(day, selectedDate)
+              className={`flex items-center justify-center w-[38px] pt-1 pb-2.5 cursor-pointer ${
+                !isSameMonth(day, monthStart)
+                  ? "invisible"
+                  : selectedDate && isSameDay(day, selectedDate)
                   ? "bg-primary text-white rounded-full font-semibold border-b border-white"
-                  : isAvailableDay && (!isBefore(day, new Date()) || isSameDay(day, new Date()))
-                    ? "bg-primary/10 rounded-full font-semibold text-primary"
-                    : "text-gray-500 text-[14.13px]"
-                }`}
+                  : isAvailableDay &&
+                    (!isBefore(day, new Date()) || isSameDay(day, new Date()))
+                  ? "bg-primary/10 rounded-full font-semibold text-primary"
+                  : "text-gray-500 text-[14.13px]"
+              }`}
             >
               {formattedDate}
             </span>

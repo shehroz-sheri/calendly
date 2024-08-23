@@ -5,6 +5,7 @@ import { AiOutlineLink } from "react-icons/ai";
 import { IoList } from "react-icons/io5";
 import { RiSettings3Line } from "react-icons/ri";
 import { IoMdCalendar } from "react-icons/io";
+import { SignupFormField } from "@/types/types";
 
 export const daysOfWeek = [
   { value: "sunday", label: "Sunday" },
@@ -92,4 +93,94 @@ export const times = [
   "09:00 pm",
   "10:00 pm",
   "11:00 pm",
+];
+
+export const signupFields: SignupFormField[] = [
+  {
+    id: "email",
+    name: "email",
+    type: "email",
+    value: undefined,
+    placeholder: "test@example.com",
+    required: true,
+    label: "Email",
+  },
+  {
+    id: "name",
+    name: "name",
+    type: "text",
+    value: undefined,
+    placeholder: "Shehroz Arshad",
+    required: true,
+    label: "Name",
+    minLength: 3,
+  },
+  {
+    id: "username",
+    name: "username",
+    type: "text",
+    value: undefined,
+    placeholder: "shehroz.sheri1",
+    required: true,
+    label: "Username",
+    minLength: 4,
+  },
+  {
+    id: "password",
+    name: "password",
+    type: "password",
+    value: undefined,
+    placeholder: "Enter password",
+    required: true,
+    label: "Choose a password with at least 6 characters",
+    minLength: 6,
+    maxLength: 9,
+    showPassword: undefined,
+    togglePasswordVisibility: undefined,
+  },
+];
+
+export const changePassInputFields = [
+  {
+    id: "current-password",
+    name: "currentPassword",
+    label: "Current Password",
+    showPasswordKey: "showCurrentPassword",
+  },
+  {
+    id: "new-password",
+    name: "newPassword",
+    label: "New Password",
+    showPasswordKey: "showNewPassword",
+  },
+];
+
+export const resetPassFormFields = [
+  {
+    id: "newPassword",
+    name: "newPassword",
+    label: "Enter new password",
+    placeholder: "Enter new password",
+  },
+  {
+    id: "confirmPassword",
+    name: "confirmPassword",
+    label: "Confirm new password",
+    placeholder: "Confirm new password",
+  },
+];
+
+export const dropdownConfigs = [
+  {
+    id: "date-format",
+    options: [{ value: "DD/MM/YYYY", label: "DD/MM/YYYY" }],
+    value: "DD/MM/YYYY",
+    label: "Date Format",
+  },
+  {
+    id: "time-format",
+    options: [{ value: "12h", label: "12h (am/pm)" }],
+    value: "12h",
+    label: "Time Format",
+  },
 ];

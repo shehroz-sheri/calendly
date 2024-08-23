@@ -15,37 +15,41 @@ export const useResetPassForm = () => {
   const token = searchParams.get("token");
   const email = searchParams.get("email");
 
-  const [newPassword, setNewPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [formState, setFormState] = useState({
+    newPassword: "",
+    confirmPassword: "",
+    showPassword: false,
+  });
 
   const dispatch = useAppDispatch();
   const loading = useAppSelector(selectResetPasswordLoading);
   const error = useAppSelector(selectResetPasswordError);
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+    setFormState((prev) => ({
+      ...prev,
+      showPassword: !prev.showPassword,
+    }));
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (name === "newPassword") {
-      setNewPassword(value);
-    } else {
-      setConfirmPassword(value);
-    }
+    setFormState((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleResetPassword = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (newPassword !== confirmPassword) {
+    if (formState.newPassword !== formState.confirmPassword) {
       return toast.error("Passwords do not match");
     }
 
     try {
       const resultAction = await dispatch(
-        resetPassword({ token, email, newPassword })
+        resetPassword({ token, email, newPassword: formState.newPassword })
       );
       if (resetPassword.fulfilled.match(resultAction)) {
         toast.success("Password reset successfully");
@@ -59,9 +63,7 @@ export const useResetPassForm = () => {
   };
 
   return {
-    newPassword,
-    confirmPassword,
-    showPassword,
+    formState,
     loading,
     togglePasswordVisibility,
     handleChange,

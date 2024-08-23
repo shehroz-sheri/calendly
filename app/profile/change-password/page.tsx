@@ -4,23 +4,24 @@ import ProfileSidebar from "@/app/(components)/profileSidebar/ProfileSidebar";
 import { Suspense } from "react";
 
 export const metadata = {
-  title: 'Change Password - Calendly',
-  description: 'Update your password to secure your Calendly account and maintain your privacy.',
+  title: "Change Password - Calendly",
+  description:
+    "Update your password to secure your Calendly account and maintain your privacy.",
   openGraph: {
-    title: 'Change Password - Calendly',
-    description: 'Update your password to secure your Calendly account and maintain your privacy.',
-    url: 'https://calendly-by-shehroz.vercel.app/change-password',
+    title: "Change Password - Calendly",
+    description:
+      "Update your password to secure your Calendly account and maintain your privacy.",
+    url: "https://calendly-by-shehroz.vercel.app/change-password",
     images: [
       {
-        url: 'https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_9b95c3b92b1ef692b5f69baaec6579d5/calendly.png',
+        url: "https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_9b95c3b92b1ef692b5f69baaec6579d5/calendly.png",
         width: 1200,
         height: 630,
-        alt: 'Change Password - Calendly',
+        alt: "Change Password - Calendly",
       },
     ],
   },
 };
-
 
 const ChangePassword = () => {
   return (

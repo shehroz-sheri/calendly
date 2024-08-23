@@ -7,18 +7,37 @@ import {
 import toast from "react-hot-toast";
 
 export const useChangePassForm = () => {
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [formState, setFormState] = useState({
+    currentPassword: "",
+    newPassword: "",
+    currentPasswordShow: false,
+    newPasswordShow: false,
+  });
 
   const dispatch = useAppDispatch();
   const loading = useAppSelector(selectChangePasswordLoading);
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormState((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const togglePasswordVisibility = (
+    field: "currentPasswordShow" | "newPasswordShow"
+  ) => {
+    setFormState((prev) => ({
+      ...prev,
+      [field]: !prev[field],
+    }));
+  };
+
   const handlePasswordChange = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (currentPassword === newPassword) {
+    if (formState.currentPassword === formState.newPassword) {
       return toast.error(
         "New password cannot be the same as current password!"
       );
@@ -26,10 +45,17 @@ export const useChangePassForm = () => {
 
     try {
       const res = await dispatch(
-        changePassword({ oldPassword: currentPassword, newPassword })
+        changePassword({
+          oldPassword: formState.currentPassword,
+          newPassword: formState.newPassword,
+        })
       ).unwrap();
-      setCurrentPassword("");
-      setNewPassword("");
+      setFormState({
+        currentPassword: "",
+        newPassword: "",
+        currentPasswordShow: false,
+        newPasswordShow: false,
+      });
       toast.success(res?.message || "Password updated successfully!");
     } catch (error) {
       toast.error((error as string) || "Something went wrong! Try again!");
@@ -37,15 +63,10 @@ export const useChangePassForm = () => {
   };
 
   return {
-    currentPassword,
-    setCurrentPassword,
-    newPassword,
-    setNewPassword,
-    showCurrentPassword,
-    setShowCurrentPassword,
-    showNewPassword,
-    setShowNewPassword,
     loading,
     handlePasswordChange,
+    handleChange,
+    formState,
+    togglePasswordVisibility,
   };
 };

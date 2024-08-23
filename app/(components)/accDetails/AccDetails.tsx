@@ -1,17 +1,19 @@
-'use client';
+"use client";
 
-import { FaChevronDown, FaSpinner } from "react-icons/fa";
+import { FaSpinner } from "react-icons/fa";
 import { useAccDetails } from "./useAccDetails";
 import Image from "next/image";
-
+import AccTextInput from "../accTextInput/accTextInput";
+import AccDropdown from "../accDropdown/AccDropdown";
+import { dropdownConfigs } from "@/constants/Constants";
 
 const AccDetails: React.FC = () => {
   const {
     time,
     userData,
-    setUserData,
     updateUserLoading,
     deleteUserLoading,
+    handleChange,
     handleUpdateProfile,
     handleDeleteAccount,
   } = useAccDetails();
@@ -27,7 +29,12 @@ const AccDetails: React.FC = () => {
           <div className="inline-block h-[5rem] w-[5rem] rounded-full overflow-hidden bg-gray-200">
             <Image
               className="object-cover"
-              src={typeof userData?.image === "string" && userData?.image?.length > 0 ? userData?.image : "https://avatar.iran.liara.run/public"}
+              src={
+                typeof userData?.image === "string" &&
+                userData?.image?.length > 0
+                  ? userData?.image
+                  : "https://avatar.iran.liara.run/public"
+              }
               alt="User Avatar"
               loading="lazy"
               width={80}
@@ -47,23 +54,15 @@ const AccDetails: React.FC = () => {
 
         <form onSubmit={handleUpdateProfile}>
           <div className="mt-1 mb-12">
-            <div className="mb-3 mt-4">
-              <label htmlFor="name" className="font-bold text-sm">
-                Name
-              </label>
-              <span className="ml-2 max-w-min border-[1.5px] border-gray-500 text-[7.5px] text-gray-500 px-[3.5px] rounded-full cursor-pointer">
-                i
-              </span>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={typeof userData?.name === "string" ? userData?.name : ""}
-                onChange={(e) => setUserData({ ...userData, name: e.target.value })}
-                className="mt-1 border border-gray-400 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block px-3 py-2 w-full md:w-[530px]"
-                placeholder="Name"
-              />
-            </div>
+            <AccTextInput
+              id="name"
+              name="name"
+              value={typeof userData?.name === "string" ? userData?.name : ""}
+              onChange={handleChange}
+              label="Name"
+              placeholder="Name"
+              info="i"
+            />
 
             <div className="mt-5">
               <label htmlFor="message" className="font-bold text-sm">
@@ -82,90 +81,41 @@ const AccDetails: React.FC = () => {
             </div>
 
             <div className="mt-4 sm:mt-8">
-              <label htmlFor="language" className="font-bold text-sm">
-                Language
-              </label>
-              <div className="relative sm:w-[530px]">
-                <select
-                  id={"id"}
+              <div className="sm:w-[530px]">
+                <AccDropdown
+                  id="language"
+                  options={[{ value: "en", label: "English" }]}
+                  value="en"
+                  onChange={() => {}}
+                  label="Language"
                   className="mt-1 block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-                >
-                  <option value="en">English</option>
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pe-3 text-primary">
-                  <FaChevronDown
-                    size={10}
-                    className="fill-current text-primary"
-                  />
-                </div>
+                />
               </div>
             </div>
 
-            <div className="flex gap-3 sm:gap-5 mt-4">
-              <div>
-                <label htmlFor="message" className="font-bold text-sm">
-                  Date Format
-                </label>
-                <span className="ml-2 max-w-min border-[1.5px] border-gray-500 text-[7.5px] text-gray-500 px-[3.5px] rounded-full cursor-pointer">
-                  i
-                </span>
-                <div className="relative inline-block w-full mt-1">
-                  <select
-                    id={"id"}
-                    className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-                  >
-                    <option value="DD/MM/YYYY">DD/MM/YYYY</option>
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pe-3 text-primary">
-                    <FaChevronDown
-                      size={10}
-                      className="fill-current text-primary"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div>
-                <label htmlFor="message" className="font-bold text-sm">
-                  Time Format
-                </label>
-                <span className="ml-2 max-w-min border-[1.5px] border-gray-500 text-[7.5px] text-gray-500 px-[3.5px] rounded-full cursor-pointer">
-                  i
-                </span>
-                <div className="relative inline-block w-full mt-1">
-                  <select
-                    id={"id"}
-                    className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-                  >
-                    <option value="12h">12h (am/pm)</option>
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pe-3 text-primary">
-                    <FaChevronDown
-                      size={10}
-                      className="fill-current text-primary"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-4">
-              <label htmlFor="language" className="font-bold text-sm">
-                Country
-              </label>
-              <div className="relative sm:w-[530px] mt-1">
-                <select
-                  id={"id"}
+            <div className="flex gap-3 sm:gap-5 mt-4 sm:w-[530px]">
+              {dropdownConfigs.map((config, index) => (
+                <AccDropdown
+                  key={index}
+                  id={config.id}
+                  options={config.options}
+                  value={config.value}
+                  onChange={() => {}}
+                  label={config.label}
                   className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-                >
-                  <option value="en">Pakistan</option>
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pe-3 text-primary">
-                  <FaChevronDown
-                    size={10}
-                    className="fill-current text-primary"
-                  />
-                </div>
-              </div>
+                />
+              ))}
+            </div>
+
+            <div className="mt-4 sm:w-[530px]">
+              <AccDropdown
+                id="country"
+                options={[{ value: "Pakistan", label: "Pakistan" }]}
+                value="Pakistan"
+                onChange={() => {}}
+                label="Country"
+                className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+              />
             </div>
 
             <div className="sm:w-[530px] mt-7">
@@ -175,20 +125,15 @@ const AccDetails: React.FC = () => {
                 </label>
                 <span className="text-xs">Current Time: {time}</span>
               </div>
-              <div className="relative sm:w-[530px] mt-2">
-                <select
-                  id={"id"}
-                  className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-                >
-                  <option value="Pakistan">Pakistan, Maldives Time</option>
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pe-3 text-primary">
-                  <FaChevronDown
-                    size={10}
-                    className="fill-current text-primary"
-                  />
-                </div>
-              </div>
+              <AccDropdown
+                id="time-zone"
+                options={[
+                  { value: "Pakistan", label: "Pakistan, Maldives Time" },
+                ]}
+                value="Pakistan"
+                onChange={() => {}}
+                className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+              />
             </div>
 
             <div className="mt-12 sm:w-[700px] flex justify-between">
@@ -197,7 +142,11 @@ const AccDetails: React.FC = () => {
                   type="submit"
                   className="mr-2 border rounded-[40px] font-semibold text-xs text-light py-3 px-4 bg-primary hover:bg-primary/80 w-[130px]"
                 >
-                  {updateUserLoading ? <FaSpinner className="animate-spin h-4 w-5 mx-auto" /> : "Save Changes"}
+                  {updateUserLoading ? (
+                    <FaSpinner className="animate-spin h-4 w-5 mx-auto" />
+                  ) : (
+                    "Save Changes"
+                  )}
                 </button>
                 <button
                   type="reset"
@@ -208,8 +157,16 @@ const AccDetails: React.FC = () => {
               </div>
 
               <div>
-                <button type="button" onClick={handleDeleteAccount} className="border rounded-[40px] text-xs font-semibold text-light py-3 w-[120px] bg-danger hover:bg-danger/80">
-                  {deleteUserLoading ? <FaSpinner className="animate-spin h-4 w-5 mx-auto" /> : "Delete Account"}
+                <button
+                  type="button"
+                  onClick={handleDeleteAccount}
+                  className="border rounded-[40px] text-xs font-semibold text-light py-3 w-[120px] bg-danger hover:bg-danger/80"
+                >
+                  {deleteUserLoading ? (
+                    <FaSpinner className="animate-spin h-4 w-5 mx-auto" />
+                  ) : (
+                    "Delete Account"
+                  )}
                 </button>
               </div>
             </div>

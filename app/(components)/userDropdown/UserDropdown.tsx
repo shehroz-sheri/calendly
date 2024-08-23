@@ -1,11 +1,18 @@
-'use client'
+"use client";
 
 import Link from "next/link";
 import { MdOutlineArrowDropDown } from "react-icons/md";
 import useUserDropdown from "./useUserDropdown";
 
 const UserDropdown = () => {
-  const { isOpen, dropdownRef, toggleDropdown, closeDropdown, handleLogout, name } = useUserDropdown();
+  const {
+    isOpen,
+    dropdownRef,
+    toggleDropdown,
+    closeDropdown,
+    handleLogout,
+    name,
+  } = useUserDropdown();
 
   return (
     <div className="relative inline-block text-left p-2" ref={dropdownRef}>

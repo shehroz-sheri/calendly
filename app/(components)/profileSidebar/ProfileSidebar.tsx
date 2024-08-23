@@ -4,12 +4,17 @@ import Link from "next/link";
 import Logo from "../logo/Logo";
 import { IoMdArrowDropdown, IoIosHelpCircleOutline } from "react-icons/io";
 import { BiSolidArrowToLeft } from "react-icons/bi";
-import { MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight, MdOutlineKeyboardArrowLeft } from "react-icons/md";
+import {
+  MdKeyboardDoubleArrowLeft,
+  MdKeyboardDoubleArrowRight,
+  MdOutlineKeyboardArrowLeft,
+} from "react-icons/md";
 import useProfileSidebar from "./useProfileSidebar";
 import { profileSidebarMenuItems } from "@/constants/Constants";
 
 const ProfileSidebar: React.FC = () => {
-  const { collapsed, isOpen, toggleSidebar, handleLogout } = useProfileSidebar();
+  const { collapsed, isOpen, toggleSidebar, handleLogout } =
+    useProfileSidebar();
 
   return (
     <div className="lg:flex lg:flex-col lg:h-screen">
@@ -25,15 +30,18 @@ const ProfileSidebar: React.FC = () => {
       </button>
 
       <div
-        className={`fixed inset-0 z-40 opacity-50 transition-opacity duration-300 ${isOpen ? "block" : "hidden"
-          } lg:hidden`}
+        className={`fixed inset-0 z-40 opacity-50 transition-opacity duration-300 ${
+          isOpen ? "block" : "hidden"
+        } lg:hidden`}
         onClick={toggleSidebar}
       ></div>
 
       <div
-        className={`fixed lg:static inset-y-0 left-0 z-50 transform bg-white ${isOpen ? "translate-x-0" : "-translate-x-full"
-          } lg:translate-x-0 transition-transform duration-300 ease-in-out flex flex-col min-h-screen ${collapsed ? "w-16" : "w-60"
-          }`}
+        className={`fixed lg:static inset-y-0 left-0 z-50 transform bg-white ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        } lg:translate-x-0 transition-transform duration-300 ease-in-out flex flex-col min-h-screen ${
+          collapsed ? "w-16" : "w-60"
+        }`}
       >
         <div className="flex items-center justify-between p-4">
           <Link href="#" className="w-full mt-1">
@@ -60,8 +68,9 @@ const ProfileSidebar: React.FC = () => {
               </span>
             </li>
             <h3
-              className={`font-bold text-lg ps-2.5 py-2 ${collapsed ? "hidden" : "block"
-                }`}
+              className={`font-bold text-lg ps-2.5 py-2 ${
+                collapsed ? "hidden" : "block"
+              }`}
             >
               Account settings
             </h3>
@@ -71,8 +80,9 @@ const ProfileSidebar: React.FC = () => {
                   <p className="flex items-center text-dark/90 space-x-3 p-2 rounded hover:bg-gray-200">
                     <item.icon />
                     <span
-                      className={`${collapsed ? "hidden" : "block"
-                        } font-bold text-[14.5px]`}
+                      className={`${
+                        collapsed ? "hidden" : "block"
+                      } font-bold text-[14.5px]`}
                     >
                       {item?.label}
                     </span>
@@ -88,8 +98,9 @@ const ProfileSidebar: React.FC = () => {
             <p className="flex items-center text-dark/90 space-x-3 p-2 rounded hover:bg-gray-200">
               <IoIosHelpCircleOutline />
               <span
-                className={`${collapsed ? "hidden" : "block"
-                  } font-bold text-[14.5px]`}
+                className={`${
+                  collapsed ? "hidden" : "block"
+                } font-bold text-[14.5px]`}
               >
                 Help <IoMdArrowDropdown className="inline" />
               </span>
@@ -99,8 +110,9 @@ const ProfileSidebar: React.FC = () => {
             <p className="flex items-center text-dark/90 space-x-3 p-2 rounded hover:bg-gray-200">
               <BiSolidArrowToLeft />
               <span
-                className={`${collapsed ? "hidden" : "block"
-                  } font-bold text-[14.5px]`}
+                className={`${
+                  collapsed ? "hidden" : "block"
+                } font-bold text-[14.5px]`}
               >
                 Logout
               </span>

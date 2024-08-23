@@ -21,6 +21,16 @@ export const useAccDetails = () => {
     image: "",
   });
 
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setUserData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
   const session = useSession();
   const dispatch = useAppDispatch();
 
@@ -88,6 +98,7 @@ export const useAccDetails = () => {
     updateUserLoading,
     deleteUserLoading,
     userError,
+    handleChange,
     dispatch,
     handleUpdateProfile,
     handleDeleteAccount,

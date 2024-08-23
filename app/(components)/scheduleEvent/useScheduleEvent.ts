@@ -17,50 +17,71 @@ export const useScheduleEvent = () => {
     (state: RootState) => state?.fetchAvailability
   );
 
-  const [eventForm, setEventForm] = useState<boolean>(false);
-  const [timeFrom, setTimeFrom] = useState<string>("");
-  const [timeTo, setTimeTo] = useState<string>("");
-  const [eventLink, setEventLink] = useState<string | undefined>();
-
-  const [username, setUsername] = useState<string>("");
-  const [isNotAvailability, setIsNotAvailability] = useState<boolean>(false);
+  const [state, setState] = useState({
+    eventForm: false,
+    timeFrom: "",
+    timeTo: "",
+    eventLink: undefined as string | undefined,
+    username: "",
+    isNotAvailability: false,
+    selectedSlot: null as string | null,
+    selectedDate: null as Date | null,
+    endingTime: "" as string | null,
+    eventDetails: {
+      endTime: null as string | null,
+      meetingDate: null as string | null,
+      startTime: null as string | null,
+      attendeeName: null as string | undefined | null,
+    },
+  });
 
   const getAvailability = async () => {
     const res = await dispatch(fetchAvailability());
 
     if (fetchAvailability.fulfilled.match(res)) {
-      setTimeFrom(convertTo12HourFormat(res?.payload?.timeFrom));
-      setTimeTo(convertTo12HourFormat(res?.payload?.timeTo));
+      setState((prev) => ({
+        ...prev,
+        timeFrom: convertTo12HourFormat(res?.payload?.timeFrom),
+        timeTo: convertTo12HourFormat(res?.payload?.timeTo),
+      }));
       return;
     }
     if (fetchAvailability.rejected.match(res)) {
-      setIsNotAvailability(true);
+      setState((prev) => ({
+        ...prev,
+        isNotAvailability: true,
+      }));
     }
   };
 
   useEffect(() => {
     if (session?.data?.user?.name) {
-      setUsername(session?.data?.user?.name);
+      setState((prev) => ({
+        ...prev,
+        username: session?.data?.user?.name,
+      }));
     }
 
     getAvailability();
   }, [session, dispatch]);
 
   const handleEventScheduled = (eventDetail?: EventType) => {
-    if (eventDetails) {
-      setEventLink(eventDetail?.eventId);
-
-      setEventDetails({
-        ...eventDetails,
-        attendeeName: eventDetail?.attendeeName,
-      });
+    if (eventDetail) {
+      setState((prev) => ({
+        ...prev,
+        eventLink: eventDetail?.eventId,
+        eventDetails: {
+          ...prev.eventDetails,
+          attendeeName: eventDetail?.attendeeName,
+        },
+      }));
     }
   };
 
   const generateTimeSlots = () => {
     const slots = [];
-    const currentTime = parseTime(timeFrom);
-    const endTime = parseTime(timeTo);
+    const currentTime = parseTime(state.timeFrom);
+    const endTime = parseTime(state.timeTo);
 
     while (currentTime <= endTime) {
       slots.push(format(currentTime, "h:mmaaa"));
@@ -72,46 +93,41 @@ export const useScheduleEvent = () => {
 
   const timeSlots = generateTimeSlots();
 
-  const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
-
   const handleSlotClick = (slot: string) => {
-    setSelectedSlot(slot);
+    setState((prev) => ({
+      ...prev,
+      selectedSlot: slot,
+    }));
   };
 
   const calculateEndTime = (): string | null => {
-    if (selectedSlot) {
-      const selectedTime = parseTime(selectedSlot);
+    if (state.selectedSlot) {
+      const selectedTime = parseTime(state.selectedSlot);
       const endTime = addMinutes(selectedTime, 30);
       return format(endTime, "h:mmaaa");
     }
     return null;
   };
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const handleDateSelect = (date: Date) => {
-    setSelectedDate(date);
+    setState((prev) => ({
+      ...prev,
+      selectedDate: date,
+    }));
   };
 
-  const [endingTime, setEndingTime] = useState<string | null>("");
-  const [eventDetails, setEventDetails] = useState<{
-    endTime: string | null;
-    meetingDate: string | null;
-    startTime: string | null;
-    attendeeName: string | undefined | null;
-  } | null>(null);
-
   const scheduleEventTime = () => {
-    if (!selectedDate) {
+    if (!state.selectedDate) {
       return toast.error("Please select a date");
     }
-    if (!selectedSlot) {
+    if (!state.selectedSlot) {
       return toast.error("Please select a time slot.");
     }
 
-    const selectedDateTime = parseTime(selectedSlot);
-    selectedDateTime.setFullYear(selectedDate?.getFullYear());
-    selectedDateTime.setMonth(selectedDate?.getMonth());
-    selectedDateTime.setDate(selectedDate?.getDate());
+    const selectedDateTime = parseTime(state.selectedSlot);
+    selectedDateTime.setFullYear(state.selectedDate?.getFullYear());
+    selectedDateTime.setMonth(state.selectedDate?.getMonth());
+    selectedDateTime.setDate(state.selectedDate?.getDate());
 
     const now = new Date();
     if (isBefore(selectedDateTime, now)) {
@@ -119,18 +135,20 @@ export const useScheduleEvent = () => {
     }
 
     const endTime = calculateEndTime();
-    setEndingTime(endTime);
-
-    setEventForm(true);
-    const meetingDate =
-      formatSelectedDate(selectedDate) + " " + selectedDate?.getFullYear();
-
-    setEventDetails({
-      endTime,
-      meetingDate,
-      startTime: selectedSlot,
-      attendeeName: null,
-    });
+    setState((prev) => ({
+      ...prev,
+      endingTime: endTime,
+      eventForm: true,
+      eventDetails: {
+        endTime,
+        meetingDate:
+          formatSelectedDate(state.selectedDate) +
+          " " +
+          state.selectedDate?.getFullYear(),
+        startTime: state.selectedSlot,
+        attendeeName: null,
+      },
+    }));
   };
 
   const formatSelectedDate = (date: Date | null) => {
@@ -139,21 +157,22 @@ export const useScheduleEvent = () => {
   };
 
   return {
-    eventForm,
-    setEventForm,
-    loading,
+    eventForm: state.eventForm,
+    setEventForm: (eventForm: boolean) =>
+      setState((prev) => ({ ...prev, eventForm })),
+    loading: loading,
     session,
-    username,
-    isNotAvailability,
-    timeFrom,
-    timeTo,
-    eventLink,
+    username: state.username,
+    isNotAvailability: state.isNotAvailability,
+    timeFrom: state.timeFrom,
+    timeTo: state.timeTo,
+    eventLink: state.eventLink,
     formatSelectedDate,
-    selectedSlot,
-    endingTime,
-    selectedDate,
+    selectedSlot: state.selectedSlot,
+    endingTime: state.endingTime,
+    selectedDate: state.selectedDate,
     handleEventScheduled,
-    eventDetails,
+    eventDetails: state.eventDetails,
     handleDateSelect,
     handleSlotClick,
     timeSlots,

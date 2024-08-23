@@ -18,16 +18,16 @@ const ChangePassForm: React.FC = () => {
       <form className="space-y-6" onSubmit={handlePasswordChange}>
         {changePassInputFields.map((field) => (
           <FormInputField
-            key={field.name}
-            id={field.id}
-            name={field.name}
+            key={field?.name}
+            id={field?.id}
+            name={field?.name}
             type="password"
-            label={field.label}
-            value={formState[field.name as keyof typeof formState] as string}
+            label={field?.label}
+            value={formState[field?.name as keyof typeof formState] as string}
             onChange={handleChange}
             showPassword={
               formState[
-                `${field.name}Show` as keyof typeof formState
+                `${field?.name}Show` as keyof typeof formState
               ] as boolean
             }
             togglePasswordVisibility={() =>

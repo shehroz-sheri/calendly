@@ -21,19 +21,19 @@ const ResetPassForm: React.FC = () => {
           <div className="px-3 sm:px-[33px]">
             {resetPassFormFields.map((field) => (
               <div
-                key={field.id}
+                key={field?.id}
                 className="h-[76px] sm:w-[374px] flex flex-col justify-evenly"
               >
                 <FormInputField
-                  id={field.id}
-                  name={field.name}
-                  label={field.label}
+                  id={field?.id}
+                  name={field?.name}
+                  label={field?.label}
                   type="password"
                   minLength={6}
                   maxLength={9}
-                  placeholder={field.placeholder}
+                  placeholder={field?.placeholder}
                   value={
-                    formState[field.name as keyof typeof formState] as string
+                    formState[field?.name as keyof typeof formState] as string
                   }
                   showPassword={formState.showPassword}
                   togglePasswordVisibility={togglePasswordVisibility}

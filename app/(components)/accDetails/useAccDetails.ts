@@ -77,7 +77,7 @@ export const useAccDetails = () => {
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
-      if (result.isConfirmed) {
+      if (result?.isConfirmed) {
         try {
           await dispatch(deleteUser()).unwrap();
           await signOut({ callbackUrl: "/auth/login" });

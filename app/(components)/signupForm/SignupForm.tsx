@@ -23,30 +23,30 @@ const SignupForm: React.FC = () => {
       <div className="border sm:w-[440px] rounded-lg py-6 my-2 shadow text-left mx-auto">
         <form onSubmit={handleUserRegister}>
           <div className="px-3 sm:px-[33px] sm:pt-[33px]">
-            {signupFields.map((field) => (
-              <div key={field.id}>
+            {signupFields?.map((field) => (
+              <div key={field?.id}>
                 <FormInputField
-                  id={field.id}
-                  name={field.name}
-                  type={field.type}
-                  value={user?.[field.name as keyof typeof user]}
-                  placeholder={field.placeholder}
-                  required={field.required}
-                  label={field.label}
-                  minLength={field.minLength}
-                  maxLength={field.maxLength}
+                  id={field?.id}
+                  name={field?.name}
+                  type={field?.type}
+                  value={user?.[field?.name as keyof typeof user]}
+                  placeholder={field?.placeholder}
+                  required={field?.required}
+                  label={field?.label}
+                  minLength={field?.minLength}
+                  maxLength={field?.maxLength}
                   showPassword={
-                    field.name === "password" ? showPassword : undefined
+                    field?.name === "password" ? showPassword : undefined
                   }
                   togglePasswordVisibility={
-                    field.name === "password"
+                    field?.name === "password"
                       ? togglePasswordVisibility
                       : undefined
                   }
                   onChange={handleChange}
                   className="border-[1.5px] text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                 />
-                {field.name === "username" && usernameError && (
+                {field?.name === "username" && usernameError && (
                   <p className="text-danger text-[12px] mt-1">
                     {usernameError}
                   </p>

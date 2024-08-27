@@ -21,9 +21,9 @@ const AccDropdown: React.FC<AccDropdownProps> = ({
         </span>
       )}
       <select id={id} value={value} onChange={onChange} className={className}>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
+        {options?.map((option) => (
+          <option key={option?.value} value={option?.value}>
+            {option?.label}
           </option>
         ))}
       </select>

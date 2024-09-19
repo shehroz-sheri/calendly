@@ -77,7 +77,7 @@ const ProfileSidebar: React.FC = () => {
             {profileSidebarMenuItems?.map((item, index) => (
               <li key={index}>
                 <Link href={item?.href}>
-                  <p className="flex items-center text-dark/90 space-x-3 p-2 rounded hover:bg-gray-200">
+                  <p className="flex items-center text-dark/90 space-x-3 p-2 rounded hover:bg-hover">
                     <item.icon />
                     <span
                       className={`${

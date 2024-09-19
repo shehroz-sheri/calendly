@@ -7,6 +7,7 @@ import Link from "next/link";
 import { FaSpinner } from "react-icons/fa";
 import { useEvents } from "./useEvents";
 import { dashboardTabs } from "@/constants/Constants";
+import { BiChevronDown } from "react-icons/bi";
 
 const Events: React.FC = () => {
   const {
@@ -26,11 +27,16 @@ const Events: React.FC = () => {
         <h3 className="font-bold text-[25.7px] mt-4">Scheduled Events</h3>
         <div>
           <div className="mt-12 flex justify-between">
-            <select className="mt-1 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500 block py-2.5 px-2 w-40 shadow-sm">
-              <option value="option1">My Calendly</option>
-            </select>
+            <div className="relative inline-block w-40">
+              <select className="mt-1 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500 block h-[46.8px] pl-[17px] w-full appearance-none shadow-sm">
+                <option value="option1">My Calendly</option>
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-[17px]">
+                <BiChevronDown />
+              </div>
+            </div>
 
-            <p className="text-[14.5px] text-gray-400 mt-auto">
+            <p className="text-[14.5px] text-gray-400 my-auto">
               Displaying {filteredDisplayEvents?.length} of {events?.length}{" "}
               Events
             </p>
@@ -101,10 +107,12 @@ const Events: React.FC = () => {
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <a className="flex items-center">
                                   <div
-                                    className={`w-7 h-7 inline-block bg-purple rounded-full mr-2`}
+                                    className={`w-7 h-7 inline-block bg-purple rounded-full mr-2 mb-3.5`}
                                   ></div>
-                                  {event?.meetingStartTime} -{" "}
-                                  {event?.meetingEndTime}
+                                  <span className="mb-3.5">
+                                    {event?.meetingStartTime} -{" "}
+                                    {event?.meetingEndTime}
+                                  </span>
                                 </a>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
@@ -124,11 +132,11 @@ const Events: React.FC = () => {
                                 </span>
                                 <span className="">0 non-hosts</span>
                               </td>
-                              <td className="pl-6 pr-3 py-4 whitespace-nowrap">
-                                <div className="space-x-2">
+                              <td className="pr-6 py-4 whitespace-nowrap">
+                                <div>
                                   <Link
                                     href={`/appointment/${event?.id}`}
-                                    className="flex items-center text-dark/60 hover:text-purple cursor-pointer"
+                                    className="flex items-center justify-end text-dark/60 hover:text-purple cursor-pointer"
                                   >
                                     <IoPlay className="inline mr-1" /> Details
                                   </Link>

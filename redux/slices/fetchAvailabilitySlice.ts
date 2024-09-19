@@ -10,9 +10,9 @@ const initialState: FetchAvailabilityState = {
 
 export const fetchAvailability = createAsyncThunk(
   "fetchAvailability/fetchAvailability",
-  async (_, { rejectWithValue }) => {
+  async (email: string, { rejectWithValue }) => {
     try {
-      const response = await axios.get("/api/event-availability");
+      const response = await axios.post("/api/event-availability", { email });
 
       if (response?.status !== 200) {
         throw new Error("Failed to fetch availability");

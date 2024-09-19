@@ -11,9 +11,11 @@ const initialState: AvailabilityState = {
 
 export const fetchEventAvailability = createAsyncThunk(
   "availability/fetchEventAvailability",
-  async (_, { rejectWithValue }) => {
+  async (email: string, { rejectWithValue }) => {
     try {
-      const response = await axios.get("/api/event-availability");
+      const response = await axios.post("/api/event-availability", {
+        email,
+      });
 
       return response?.data?.availability?.days;
     } catch (error: any) {

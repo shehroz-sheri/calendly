@@ -61,7 +61,7 @@ const AvailabilitySection: React.FC = () => {
               </div>
             </div>
 
-            <div className="mt-3 px-[12px] sm:px-[24px] pb-6">
+            <div className="mt-5 px-[12px] sm:px-[24px] pb-6">
               <div className="min-h-[90px] flex flex-col justify-around">
                 <p className="font-bold text-[14.88px] leading-[22px]">
                   Available days

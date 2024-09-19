@@ -20,9 +20,9 @@ const SignupForm: React.FC = () => {
 
   return (
     <div>
-      <div className="border sm:w-[440px] rounded-lg py-6 my-2 shadow text-left mx-auto">
+      <div className="border sm:w-[440px] rounded-lg pb-6 my-2 shadow text-left mx-auto">
         <form onSubmit={handleUserRegister}>
-          <div className="px-3 sm:px-[33px] sm:pt-[33px]">
+          <div className="px-3 sm:px-[33px] sm:pt-[28px]">
             {signupFields?.map((field) => (
               <div key={field?.id}>
                 <FormInputField

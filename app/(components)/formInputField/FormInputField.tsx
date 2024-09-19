@@ -22,7 +22,7 @@ const FormInputField: React.FC<FormInputFieldProps> = ({
     <div className="h-[76px] sm:w-[374px] flex flex-col justify-evenly">
       {label && (
         <label className="text-[14.75px] font-bold leading-[22px]" htmlFor={id}>
-          {isPassword ? label : `Enter your ${name}`}
+          {isPassword ? label : `Enter your ${label}`}
         </label>
       )}
       <div className="relative w-full">
@@ -37,7 +37,11 @@ const FormInputField: React.FC<FormInputFieldProps> = ({
           maxLength={maxLength}
           className={className}
           placeholder={placeholder}
-          style={isPassword ? { paddingRight: "2.5rem" } : undefined}
+          style={
+            isPassword
+              ? { paddingRight: "2.5rem", paddingLeft: "15px" }
+              : { paddingLeft: "15px" }
+          }
         />
         {isPassword && (
           <button

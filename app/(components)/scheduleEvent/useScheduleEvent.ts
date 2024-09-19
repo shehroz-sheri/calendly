@@ -36,7 +36,7 @@ export const useScheduleEvent = () => {
   });
 
   const getAvailability = async () => {
-    const res = await dispatch(fetchAvailability());
+    const res = await dispatch(fetchAvailability(session.data?.user.email));
 
     if (fetchAvailability.fulfilled.match(res)) {
       setState((prev) => ({

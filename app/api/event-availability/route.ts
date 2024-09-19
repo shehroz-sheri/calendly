@@ -1,9 +1,8 @@
-import { auth } from "@/auth";
 import { prisma } from "@/config/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export const GET = auth(async function GET(req) {
-  const email = req.auth?.user?.email;
+export const POST = async (req: NextRequest) => {
+  let { email } = await req.json();
 
   if (!email)
     return NextResponse.json(
@@ -41,4 +40,4 @@ export const GET = auth(async function GET(req) {
       );
     }
   }
-});
+};

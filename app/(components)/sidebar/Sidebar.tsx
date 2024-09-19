@@ -42,7 +42,11 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
           collapsed ? "w-16" : "w-60"
         }`}
       >
-        <div className="flex items-center justify-between p-4">
+        <div
+          className={`flex items-center justify-between p-4 ${
+            !collapsed && "pr-0"
+          }`}
+        >
           <Link href="/dashboard" className="w-full mt-1">
             <p className="flex items-center space-x-2">
               <Logo
@@ -64,7 +68,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
         </div>
 
         <nav className="flex-grow overflow-auto">
-          <ul className="flex flex-col space-y-2 p-4">
+          <ul className="flex flex-col space-y-2 p-3 pr-0">
             <li>
               <span className={`${collapsed ? "hidden" : "block"}`}>
                 <Link
@@ -77,7 +81,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
             </li>
             <li>
               <Link href="/dashboard">
-                <p className="flex items-center space-x-3 p-2 rounded hover:bg-gray-200">
+                <p className="flex items-center space-x-3 p-2 rounded hover:bg-hover">
                   <MdOutlineCalendarMonth />
                   <span
                     className={`${
@@ -91,7 +95,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
             </li>
             <li>
               <Link href="/analytics">
-                <p className="flex items-center space-x-3 p-2 rounded hover:bg-gray-200">
+                <p className="flex items-center space-x-3 p-2 rounded hover:bg-hover">
                   <MdOutlineAnalytics />
                   <span
                     className={`${
@@ -108,7 +112,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
 
         <div className="p-4 mt-auto">
           <Link href="/dashboard/availability">
-            <p className="flex items-center space-x-3 p-2 rounded hover:bg-gray-200">
+            <p className="flex items-center space-x-3 p-2 rounded hover:bg-hover">
               <GoClock />
               <span
                 className={`${
@@ -120,7 +124,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
             </p>
           </Link>
           <div>
-            <p className="flex items-center space-x-3 p-2 rounded hover:bg-gray-200">
+            <p className="flex items-center space-x-3 p-2 rounded hover:bg-hover">
               <RiVipCrown2Line />
               <span
                 className={`${

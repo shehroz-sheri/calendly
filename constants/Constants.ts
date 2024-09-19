@@ -61,11 +61,11 @@ export const dashboardTabs: { name: string; value: TabValue }[] = [
 
 export const profileSidebarMenuItems = [
   { href: "/profile/edit-profile", icon: LuUsers2, label: "Profile" },
-  { href: "/calendar", icon: FaRegStar, label: "Branding" },
-  { href: "/calendar", icon: AiOutlineLink, label: "My Link" },
+  { href: "#", icon: FaRegStar, label: "Branding" },
+  { href: "#", icon: AiOutlineLink, label: "My Link" },
   { href: "/profile/change-password", icon: IoList, label: "Change Password" },
-  { href: "/calendar", icon: RiSettings3Line, label: "Cookie settings" },
-  { href: "/calendar", icon: IoMdCalendar, label: "Calendar sync" },
+  { href: "#", icon: RiSettings3Line, label: "Cookie settings" },
+  { href: "#", icon: IoMdCalendar, label: "Calendar sync" },
 ];
 
 export const times = [
@@ -103,7 +103,7 @@ export const signupFields: SignupFormField[] = [
     value: undefined,
     placeholder: "test@example.com",
     required: true,
-    label: "Email",
+    label: "email to get started",
   },
   {
     id: "name",
@@ -112,7 +112,7 @@ export const signupFields: SignupFormField[] = [
     value: undefined,
     placeholder: "Shehroz Arshad",
     required: true,
-    label: "Name",
+    label: "name",
     minLength: 3,
   },
   {
@@ -122,7 +122,7 @@ export const signupFields: SignupFormField[] = [
     value: undefined,
     placeholder: "shehroz.sheri1",
     required: true,
-    label: "Username",
+    label: "username",
     minLength: 4,
   },
   {

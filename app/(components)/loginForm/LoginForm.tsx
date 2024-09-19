@@ -18,7 +18,7 @@ const LoginForm: React.FC = () => {
 
   return (
     <div>
-      <div className="border sm:w-[440px] rounded-lg pt-8 pb-3.5 my-4 shadow text-left mx-auto">
+      <div className="border sm:w-[440px] rounded-lg pt-7 pb-3.5 my-4 shadow text-left mx-auto">
         <form onSubmit={handleUserLogin}>
           <div className="px-3 sm:px-[33px]">
             <div className="h-[76px] sm:w-[374px] flex flex-col justify-evenly">
@@ -29,7 +29,7 @@ const LoginForm: React.FC = () => {
                 value={user?.email}
                 placeholder="test@example.com"
                 required
-                label="Email"
+                label="email"
                 onChange={handleChange}
                 className="border-[1.5px] text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
               />

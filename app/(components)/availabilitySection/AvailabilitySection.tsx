@@ -25,14 +25,14 @@ const AvailabilitySection: React.FC = () => {
       <div className="min-h-screen py-6 flex flex-col justify-center items-center">
         <Logo width={180} className="mx-auto" />
         <form onSubmit={handleSubmit}>
-          <div className="w-[95%] bg-white sm:w-[645px] mt-4 mx-auto border-[1.5px] rounded-lg">
-            <div className="pt-[32px] px-[12px] sm:px-[24px] border-b-[1.5px]">
+          <div className="w-[95%] bg-white sm:w-[645px] mt-10 mx-auto border-[1.5px] rounded-lg">
+            <div className="px-[12px] sm:px-[24px] border-b-[1.5px] h-[163.4px]">
               <div className="flex flex-wrap justify-between min-h-[162.4px]">
                 <div className="flex flex-col justify-evenly">
-                  <h3 className="font-bold text-[18.44px] leading-7">
+                  <h3 className="font-bold text-[18.44px] leading-6">
                     Set your availability
                   </h3>
-                  <p className="sm:w-[365px] h-[45px] text-[14.88px] leading-[22.4px]">
+                  <p className="sm:w-[365px] h-[45px] text-[14.88px]">
                     Let Calendly know when you're typically available to accept
                     meetings.
                   </p>

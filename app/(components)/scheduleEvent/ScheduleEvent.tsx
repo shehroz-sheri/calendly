@@ -131,7 +131,7 @@ const ScheduleEvent: React.FC = () => {
                         Select a Date & Time
                       </p>
                       <div className="xl:flex">
-                        <div className="md:w-[412.61px]">
+                        <div className="md:w-[412.61px] pb-4">
                           <Calendar onDateSelect={handleDateSelect} />
                           <div className="ml-4 flex flex-col max-sm:hidden justify-between xl:h-[370px]">
                             <div>
@@ -175,7 +175,7 @@ const ScheduleEvent: React.FC = () => {
                               </p>
                             ))}
                           </div>
-                          <div className="text-sm mt-4 text-white flex gap-4 mb-5">
+                          <div className="text-sm mt-4 text-white flex gap-4 mb-3">
                             {selectedSlot && (
                               <button className="px-3 py-2 bg-gray-400 rounded-sm">
                                 {selectedSlot}

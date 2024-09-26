@@ -43,8 +43,8 @@ const Events: React.FC = () => {
           </div>
 
           <div className="rounded shadow mt-6 border border-gray-300 mb-2">
-            <div className="md:flex max-sm:flex-col md:justify-between bg-white sm:h-16 px-6 max-sm:py-2 rounded-t rounded-r border-b border-gray-300">
-              <div className="flex gap-5 sm:gap-7 max-sm:justify-center max-sm:mb-2 items-center text-[15px] max-sm:border-b max-sm:border-gray-300 ">
+            <div className="md:flex max-md:flex-col md:justify-between bg-white md:h-16 px-6 max-md:py-2 rounded-t rounded-r border-b border-gray-300">
+              <div className="flex gap-5 md:gap-7 max-md:justify-center max-md:mb-2 items-center text-[15px] max-md:border-b max-md:border-gray-300 ">
                 {dashboardTabs?.map((tab) => (
                   <p
                     key={tab?.value}
@@ -67,7 +67,7 @@ const Events: React.FC = () => {
                   <MdArrowDropDown className="inline" />
                 </p>
               </div>
-              <div className="flex items-center gap-2 max-sm:justify-center max-sm:mt-2 text-[12.69px]">
+              <div className="flex items-center gap-2 max-md:justify-center max-md:mt-2 text-[12.69px]">
                 <button
                   onClick={exportEvents}
                   disabled={icsLoading}

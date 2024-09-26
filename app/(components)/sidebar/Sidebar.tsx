@@ -15,9 +15,8 @@ import useSidebar from "./useSidebar";
 import { SidebarProps } from "@/types/types";
 
 const Sidebar: React.FC<SidebarProps> = (props) => {
-  const { collapsed, isOpen, toggleSidebar, handleCollapseToggle } = useSidebar(
-    props?.isCollapsed
-  );
+  const { collapsed, isOpen, isActive, toggleSidebar, handleCollapseToggle } =
+    useSidebar(props?.isCollapsed);
 
   return (
     <div className="lg:flex lg:flex-col lg:h-screen">
@@ -51,7 +50,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
             <p className="flex items-center space-x-2">
               <Logo
                 width={128}
-                className={` ${collapsed ? "hidden" : "block"}`}
+                className={`pt-1 ${collapsed ? "hidden" : "block"}`}
               />
             </p>
           </Link>
@@ -81,7 +80,11 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
             </li>
             <li>
               <Link href="/dashboard">
-                <p className="flex items-center space-x-3 p-2 rounded hover:bg-hover">
+                <p
+                  className={`flex items-center space-x-5 px-4 h-11 rounded-lg ${
+                    isActive("/dashboard") ? "bg-hover" : "hover:bg-hover"
+                  }`}
+                >
                   <MdOutlineCalendarMonth />
                   <span
                     className={`${
@@ -95,7 +98,11 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
             </li>
             <li>
               <Link href="/analytics">
-                <p className="flex items-center space-x-3 p-2 rounded hover:bg-hover">
+                <p
+                  className={`flex items-center space-x-5 px-4 h-11 rounded-lg ${
+                    isActive("/analytics") ? "bg-hover" : "hover:bg-hover"
+                  }`}
+                >
                   <MdOutlineAnalytics />
                   <span
                     className={`${
@@ -110,9 +117,15 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
           </ul>
         </nav>
 
-        <div className="p-4 mt-auto">
+        <div className="pl-4 py-4 mt-auto">
           <Link href="/dashboard/availability">
-            <p className="flex items-center space-x-3 p-2 rounded hover:bg-hover">
+            <p
+              className={`flex items-center space-x-5 px-4 h-11 rounded-lg mb-1.5 ${
+                isActive("/dashboard/availability")
+                  ? "bg-hover"
+                  : "hover:bg-hover"
+              }`}
+            >
               <GoClock />
               <span
                 className={`${
@@ -124,7 +137,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
             </p>
           </Link>
           <div>
-            <p className="flex items-center space-x-3 p-2 rounded hover:bg-hover">
+            <p className="flex items-center space-x-5 px-4 h-11 rounded-lg hover:bg-hover">
               <RiVipCrown2Line />
               <span
                 className={`${

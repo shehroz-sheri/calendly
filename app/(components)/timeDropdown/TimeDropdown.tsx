@@ -13,7 +13,7 @@ const TimeDropdown: React.FC<TimeDropdownProps> = ({
     <div className="relative inline-block w-full">
       <select
         id={id}
-        className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+        className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline h-[46px]"
         onChange={onChange}
       >
         {options?.map((time, index) => (

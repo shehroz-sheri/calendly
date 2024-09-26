@@ -14,7 +14,7 @@ const UserAvailability: React.FC = () => {
   return (
     <>
       <div className="flex">
-        <div className="fixed z-50 lg:border-r">
+        <div className="fixed z-50 lg:border-r lg:pr-3">
           <Sidebar isCollapsed={() => true} />
         </div>
         <main className="flex-grow min-h-screen max-w-[100vw]">

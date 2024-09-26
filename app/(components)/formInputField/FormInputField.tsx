@@ -35,13 +35,10 @@ const FormInputField: React.FC<FormInputFieldProps> = ({
           required={required}
           minLength={minLength}
           maxLength={maxLength}
-          className={className}
+          className={`${className} ${
+            isPassword ? "pr-[2.5rem] pl-[15px]" : "pl-[15px]"
+          }`}
           placeholder={placeholder}
-          style={
-            isPassword
-              ? { paddingRight: "2.5rem", paddingLeft: "15px" }
-              : { paddingLeft: "15px" }
-          }
         />
         {isPassword && (
           <button

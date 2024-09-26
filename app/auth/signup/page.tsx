@@ -26,7 +26,7 @@ export const metadata = {
 const Signup: React.FC = () => {
   return (
     <div className="min-h-screen flex justify-center items-center flex-col">
-      <div className="text-center w-[92%] sm:w-[440px] my-4">
+      <div className="text-center w-[92%] sm:w-[440px] my-[51px]">
         <Logo className="mx-auto" width={182} />
         <p className="font-bold max-w-[268.65px] mx-auto text-xl">
           Sign up with Calendly for free

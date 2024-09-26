@@ -120,7 +120,7 @@ export const signupFields: SignupFormField[] = [
     name: "username",
     type: "text",
     value: undefined,
-    placeholder: "shehroz.sheri1",
+    placeholder: "shehroz1",
     required: true,
     label: "username",
     minLength: 4,

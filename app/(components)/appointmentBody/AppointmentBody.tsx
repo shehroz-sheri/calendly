@@ -7,7 +7,7 @@ import { useParams } from "next/navigation";
 import { FaCalendarPlus, FaFileDownload, FaSpinner } from "react-icons/fa";
 import { SiGooglemeet } from "react-icons/si";
 import { useAppointment } from "./useAppointment";
-import { AppointmentDetailItem } from "../AppointmentDetailItem/AppointmentDetailItem";
+import { AppointmentDetailItem } from "../appointmentDetailItem/AppointmentDetailItem";
 import { getAppointmentDetails } from "@/utils/appointmentUtils";
 
 const AppointmentBody: React.FC = () => {

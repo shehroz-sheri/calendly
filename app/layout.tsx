@@ -11,6 +11,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Calendly",
   description: "Appointment Management System",
+  verification: {
+    google: 'UCFN5BpvqSAcTiDWGL7ZngKAcY2KdHjMd3j7fHElLRI',
+  },
 };
 
 export default async function RootLayout({

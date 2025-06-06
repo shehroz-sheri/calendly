@@ -25,6 +25,13 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3057716282027202"
+          crossOrigin="anonymous"
+        ></script>
+      </head>
       <body className={`${inter.className} text-dark`}>
         <SessionProvider session={session}>
           <ReduxProvider>
